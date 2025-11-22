@@ -1,0 +1,65 @@
+/* assets/css/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: white;
+  color: #333;
+  min-height: 100vh;
+  padding-bottom: 90px; /* espace pour la barre fixe */
+  position: relative;
+}
+
+/* ================== BARRE DE NAVIGATION FIXE EN BAS ================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 3px solid #ccc; /* gris pour bordure */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80px;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.08);
+  z-index: 1000;
+}
+
+.bottom-nav a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  flex: 1;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.bottom-nav a:hover {
+  color: #0066FF;
+}
+
+.bottom-nav a.active {
+  color: #0066FF;
+  border-top: 4px solid #0066FF;
+  margin-top: -3px;
+}
+
+/* Icônes optionnelles (tu peux ajouter plus tard) */
+.bottom-nav a::before {
+  display: block;
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+.bottom-nav a[href="index.html"]::before { content: "🏠"; }
+.bottom-nav a[href="propos.html"]::before { content: "👤"; }
+.bottom-nav a[href="contact.html"]::before { content: "📱"; }
+.bottom-nav a[href="confidentialite.html"]::before { content: "🔒"; }
