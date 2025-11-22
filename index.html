@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Megane Learn • Accès</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* Surcharge légère pour rendre les boutons plus fins et compacts */
+    .big-btn {
+      padding: 18px 40px !important;   /* beaucoup plus fin */
+      font-size: 1.4rem !important;
+      min-width: auto !important;
+      width: 320px;
+      border-radius: 16px !important;
+    }
+    .buttons-row {
+      gap: 25px !important;           /* espace réduit entre les boutons */
+      margin-top: 30px !important;
+    }
+    .section {
+      padding: 40px 25px !important;  /* moins d'espace interne */
+      margin: 30px auto !important;
+    }
+    .section p {
+      margin: 20px auto !important;
+      font-size: 1.15rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ÉCRAN DE CONNEXION (inchangé) -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <h1>🔒 Megane Learn</h1>
+      <p style="font-size:1.3rem;margin:25px 0;">
+        Site réservé aux élèves & stagiaires<br>Bac Pro · BT Électromécanique
+      </p>
+      <input type="text" id="passwordInput" placeholder="Entre le code d'accès">
+      <button id="loginBtn">Entrer</button>
+    </div>
+  </div>
+
+  <!-- SITE PRINCIPAL APRÈS CONNEXION -->
+  <div id="mainSite">
+    <section class="section">
+      <h2>🔍 Pourquoi chercher et lire des PDF ?</h2>
+      <p style="max-width:700px;">
+        Un bon technicien ne dépend pas uniquement de son formateur.<br>
+        Savoir chercher la bonne information, comprendre un schéma, comparer des procédures = autonomie, rapidité et professionnalisme.<br>
+        <strong>Chaque PDF lu aujourd’hui, c’est une panne résolue demain.</strong>
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 style="margin-bottom:20px;">Accéder aux cours</h2>
+      <div class="buttons-row">
+        <a href="rech.html" class="big-btn">
+          🔍 Recherche rapide
+        </a>
+        <a href="bt.html" class="big-btn">
+          🔵 Par matière
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- BARRE DE NAVIGATION FIXE ULTRA STYLÉE -->
+  <nav class="bottom-nav">
+    <a href="index.html">ACCUEIL</a>
+    <a href="propos.html">À PROPOS</a>
+    <a href="contact.html">CONTACT</a>
+    <a href="confidentialite.html">CONFIDENTIALITÉ</a>
+  </nav>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
