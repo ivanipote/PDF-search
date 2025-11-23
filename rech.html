@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche PDF • Megane Learn</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs" type="module"></script>
+  <style>
+    .search-container {
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+    #searchInput {
+      width: 90%;
+      max-width: 600px;
+      padding: 18px 25px;
+      font-size: 1.4rem;
+      border: 5px solid #0066FF;
+      border-radius: 50px;
+      outline: none;
+      box-shadow: 0 10px 30px rgba(0,102,255,0.2);
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #555;
+    }
+    #resultCount {
+      margin: 30px 0;
+      font-size: 1.3rem;
+      color: #0066FF;
+      font-weight: bold;
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 25px;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .result-card {
+      background: white;
+      border: 4px solid #0066FF;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 12px 35px rgba(0,102,255,0.15);
+      transition: 0.3s;
+    }
+    .result-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0,102,255,0.25);
+    }
+    .file-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #0066FF;
+      margin: 10px 0;
+    }
+    .snippet {
+      color: #555;
+      margin: 15px 0;
+      font-size: 1rem;
+    }
+    .download-btn {
+      background: #0066FF;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="search-container">
+    <h1 style="color:#0066FF;margin-bottom:30px;">🔍 Recherche dans les PDF</h1>
+    <input type="text" id="searchInput" placeholder="moteur, schéma, frein ABS, embrayage, norme..." autofocus>
+    <div id="status">Chargement des PDF...</div>
+    <div id="resultCount"></div>
+  </div>
+
+  <div class="results-grid" id="results"></div>
+
+  <!-- BARRE DE NAVIGATION FIXE -->
+  <nav class="bottom-nav">
+    <a href="index.html">ACCUEIL</a>
+    <a <a href="propos.html">À PROPOS</a>
+    <a href="contact.html">CONTACT</a>
+    <a href="confidentialite.html">CONFIDENTIALITÉ</a>
+  </nav>
+
+  <script type="module">
+    const RECH_FOLDER = "rechfiles"; // ← ton dossier avec les PDF
+    let allPDFs = [];
+
+    // Chargement de la liste des PDF depuis le dossier rechfiles/
+    async function loadPDFList() {
+      try {
+        const resp = await fetch(`https://api.github.com/repos/ivanipote/PDF-search/contents/${RECH_FOLDER}`);
+        const files = await resp.json();
+        allPDFs = files
+          .filter(f => f.name.toLowerCase().endsWith('.pdf'))
+          .map(f => ({
+            name: f.name,
+            url: f.download_url
+          }));
+        document.getElementById("status").textContent = `${allPDFs.length} PDF chargés – tape un mot-clé !`;
+      } catch (e) {
+        document.getElementById("status").textContent = "Erreur de chargement des PDF";
+      }
+    }
+
+    // Recherche
+    const input = document.getElementById("searchInput");
+    const resultsDiv = document.getElementById("results");
+    const countDiv = document.getElementById("resultCount");
+
+    input.addEventListener("input", async () => {
+      const query = input.value.trim().toLowerCase();
+      resultsDiv.innerHTML = "";
+      countDiv.textContent = "";
+
+      if (query.length < 2) return;
+
+      let hits = 0;
+
+      for (const pdf of allPDFs) {
+        try {
+          const loadingTask = pdfjsLib.getDocument(pdf.url);
+          const doc = await loadingTask.promise;
+          let foundInFile = false;
+          let snippet = "";
+
+          for (let pageNum = 1; pageNum <= doc.numPages; pageNum++) {
+            const page = await doc.getPage(pageNum);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items.map(item => item.str).join(" ").toLowerCase();
+
+            if (pageText.includes(query)) {
+              if (!foundInFile) {
+                foundInFile = true;
+                hits++;
+              }
+              if (!snippet) {
+                snippet = textContent.items.map(item => item.str).join(" ").substring(0,250) + "...";
+              }
+            }
+          }
+
+          if (foundInFile) {
+            const card = document.createElement("div");
+            card.className = "result-card";
+            card.innerHTML = `
+              <div class="file-title">📄 ${pdf.name}</div>
+              <div class="snippet">${snippet}</div>
+              <a href="${pdf.url}" download class="download-btn">Télécharger le PDF</a>
+            `;
+            resultsDiv.appendChild(card);
+          }
+        } catch (e) {}
+      }
+
+      countDiv.textContent = hits ? `${hits} PDF trouvé${hits > 1 ? 's' : ''}` : "Aucun résultat 😔";
+    });
+
+    loadPDFList();
+  </script>
+
+  <script src="script.js"></script>
+</body>
+    </html>
