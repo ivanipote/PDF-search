@@ -3,42 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Megane Learn • Cours Auto Pro</title>
+  <title>Megane Learn • Accueil</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <section class="section">
-    <h1>Megane Learn</h1>
-    <p style="font-size:1.5rem;color:#0066FF;margin:20px 0;">
-      Tous les cours PDF – Bac Pro & BT Électromécanique<br>
-      Gratuit · Anonyme · Sans inscription
-    </p>
-    <h2>🔍 Pourquoi chercher et lire des PDF ?</h2>
-    <p>
-      Un bon technicien ne dépend pas uniquement de son formateur.<br>
-      Savoir chercher la bonne information, comprendre un schéma, comparer des procédures = autonomie, rapidité et professionnalisme.<br>
-      <strong>Chaque PDF lu aujourd’hui, c’est une panne résolue demain.</strong>
-    </p>
-  </section>
+  <!-- SIDEBAR UNIQUEMENT SUR L'ACCUEIL -->
+  <div class="sidebar">
+    <h3>Informations</h3>
+    <a href="contact.html">📱 Contact WhatsApp</a>
+    <a href="propos.html">👤 À propos</a>
+    <a href="confi.html">🔒 Confidentialité</a>
+  </div>
 
-  <section class="section">
-    <h2>Accéder aux cours</h2>
-    <div class="buttons-row">
-      <a href="rech.html" class="big-btn">🔍 Recherche</a>
-    </div>
-      <div class="buttons-row">
-      <a href="bt.html" class="big-btn">PRO</a>
-    </div>
-  </section>
+  <!-- CONTENU PRINCIPAL -->
+  <div class="main-content">
+    <h1 style="text-align:center;color:#0066FF;font-size:3.5rem;">
+      Megane Learn
+    </h1>
+    <p style="text-align:center;font-size:1.5rem;max-width:800px;margin:40px auto;line-height:1.8;">
+      Tous les cours PDF pour Bac Pro & BT Électromécanique<br>
+      Gratuit · Anonyme · Sans inscription · Mis à jour régulièrement
+    </p>
 
+    <div style="text-align:center;margin-top:80px;">
+      <p style="font-size:1.3rem;color:#555;">
+        Utilise la barre en bas pour naviguer :
+      </p>
+    </div>
+  </div>
+
+  <!-- BARRE FIXE EN BAS (sur toutes les pages) -->
   <nav class="bottom-nav">
-    <a href="index.html">ACCUEIL</a>
-    <a href="propos.html">À PROPOS</a>
-    <a href="contact.html">CONTACT</a>
-    <a href="confidentialite.html">CONFIDENTIALITÉ</a>
+    <a href="index.html" class="active">ACCUEIL</a>
+    <a href="rech.html">RECHERCHE</a>
+    <a href="bt.html">PRO</a>
+    <a href="gd.html">GUIDE</a>
   </nav>
 
   <script src="script.js"></script>
 </body>
-  </html>
+</html>
