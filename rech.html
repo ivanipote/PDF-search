@@ -3,26 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recherche PDF • Megane Learn</title>
+  <title>Recherche Intelligente • Megane Learn</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs" type="module"></script>
   <style>
-    .search-container { text-align:center; padding:60px 20px 40px; }
-    #searchInput { width:90%; max-width:600px; padding:18px 30px; font-size:1.5rem; border:5px solid #0066FF; border-radius:50px; outline:none; box-shadow:0 10px 30px rgba(0,102,255,0.2); }
-    #status { margin-top:20px; font-size:1.2rem; color:#0066FF; font-weight:bold; }
-    #resultCount { margin:30px 0; font-size:1.4rem; color:#0066FF; font-weight:bold; }
-    .results-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:25px; padding:20px; max-width:1400px; margin:0 auto; }
-    .result-card { background:white; border:4px solid #0066FF; border-radius:20px; padding:30px; text-align:center; box-shadow:0 12px 35px rgba(0,102,255,0.15); transition:0.3s; }
-    .result-card:hover { transform:translateY(-10px); box-shadow:0 25px 50px rgba(0,102,255,0.25); }
-    .file-title { font-weight:bold; font-size:1.4rem; color:#0066FF; margin-bottom:15px; }
-    .download-btn { background:#0066FF; color:white; padding:14px 35px; border-radius:50px; text-decoration:none; font-weight:bold; font-size:1.1rem; }
+    .search-container { text-align:center; padding:70px 20px 40px; }
+    #searchInput { width:92%; max-width:700px; padding:20px 30px; font-size:1.6rem; border:6px solid #0066FF; border-radius:50px; outline:none; box-shadow:0 12px 35px rgba(0,102,255,0.25); }
+    #status { margin:25px 0; font-size:1.3rem; color:#0066FF; font-weight:bold; }
+    #resultCount { margin:30px 0; font-size:1.5rem; color:#0066FF; font-weight:bold; }
+    .results-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:30px; padding:20px; max-width:1400px; margin:0 auto; }
+    .result-card { background:white; border:5px solid #0066FF; border-radius:24px; padding:30px; text-align:left; box-shadow:0 15px 45px rgba(0,102,255,0.15); transition:0.4s; position:relative; }
+    .result-card:hover { transform:translateY(-15px); box-shadow:0 30px 70px rgba(0,102,255,0.3); }
+    .score-badge { position:absolute; top:-12px; right:15px; background:#0066FF; color:white; padding:6px 14px; border-radius:20px; font-weight:bold; font-size:0.9rem; }
+    .file-title { font-weight:bold; font-size:1.5rem; color:#0066FF; margin-bottom:12px; }
+    .snippet { background:#f8fbff; padding:18px; border-radius:15px; margin:15px 0; line-height:1.7; font-size:1.1rem; }
+    .highlight { background:#ff0; color:#000; font-weight:bold; padding:2px 6px; border-radius:4px; }
+    .download-btn { background:#0066FF; color:white; padding:14px 40px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block; margin-top:10px; }
   </style>
 </head>
 <body>
 
   <div class="search-container">
-    <h1 style="color:#0066FF;">🔍 Recherche rapide</h1>
-    <input type="text" id="searchInput" placeholder="Tape un mot du nom du fichier : moteur, frein, schéma, stage..." autofocus>
-    <div id="status">Chargement des PDF...</div>
+    <h1 style="color:#0066FF;">🔍 Recherche intelligente</h1>
+    <input type="text" id="searchInput" placeholder="Ex : cours de math primitive, frein ABS, schéma électrique..." autofocus>
+    <div id="status">Chargement des PDF depuis rechfiles/...</div>
     <div id="resultCount"></div>
   </div>
 
@@ -35,8 +39,8 @@
     <a href="confidentialite.html">CONFIDENTIALITÉ</a>
   </nav>
 
-  <script>
-    const RECH_FOLDER = "rechfiles"; // ton dossier
+  <script type="module">
+    const RECH_FOLDER = "rechfiles";
     let allPDFs = [];
 
     async function loadPDFList() {
@@ -44,50 +48,120 @@
         const resp = await fetch(`https://api.github.com/repos/ivanipote/PDF-search/contents/${RECH_FOLDER}`);
         const files = await resp.json();
         allPDFs = files.filter(f => f.name.toLowerCase().endsWith('.pdf'));
-        document.getElementById("status").textContent = `${allPDFs.length} PDF disponibles – tape un mot du titre !`;
-        showAllPDFs(); // affiche tous les PDF au chargement
+        document.getElementById("status").textContent = `${allPDFs.length} PDF chargés – tape plusieurs mots pour une recherche intelligente !`;
+        showAllPDFs();
       } catch (e) {
-        document.getElementById("status").textContent = "Erreur de chargement";
+        document.getElementById("status").textContent = "Erreur : dossier rechfiles introuvable";
       }
+    }
+
+    function highlightText(text, terms) {
+      let highlighted = text;
+      terms.forEach(term => {
+        const regex = new RegExp(`(${term})`, 'gi');
+        highlighted = highlighted.replace(regex, '<span class="highlight">$1</span>');
+      });
+      return highlighted;
+    }
+
+    function calculateScore(pdfName, pdfText, terms) {
+      let score = 0;
+      const lowerName = pdfName.toLowerCase();
+      const lowerText = pdfText.toLowerCase();
+      terms.forEach(term => {
+        if (lowerName.includes(term)) score += 3; // bonus si dans le titre
+        if (lowerText.includes(term)) score += 1;
+      });
+      return score;
+    }
+
+    async function search(query) {
+      const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
+      if (terms.length === 0) {
+        showAllPDFs();
+        return;
+      }
+
+      let results = [];
+
+      for (const pdf of allPDFs) {
+        let snippet = "";
+        let fullText = "";
+
+        // 1. Recherche dans le nom du fichier
+        const nameMatchCount = terms.filter(t => pdf.name.toLowerCase().includes(t)).length;
+
+        // 2. Recherche dans le contenu (si possible)
+        try {
+          const loadingTask = pdfjsLib.getDocument(`https://raw.githubusercontent.com/ivanipote/PDF-search/main/${RECH_FOLDER}/${pdf.name}`);
+          const doc = await loadingTask.promise;
+          for (let p = 1; p <= Math.min(doc.numPages, 10); p++) {
+            const page = await doc.getPage(p);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items.map(i => i.str).join(" ");
+            fullText += pageText + " ";
+            if (!snippet && pageText.toLowerCase().split(/\s+/).some(word => terms.includes(word))) {
+              snippet = pageText.substring(0, 300) + "...";
+            }
+          }
+        } catch (e) {}
+
+        const score = calculateScore(pdf.name, fullText, terms);
+        if (score > 0 || nameMatchCount > 0) {
+          results.push({
+            pdf,
+            score,
+            snippet: snippet || "Trouvé dans le nom du fichier",
+            terms
+          });
+        }
+      }
+
+      // Tri par pertinence (le meilleur en haut)
+      results.sort((a, b) => b.score - a.score);
+
+      // Affichage
+      const grid = document.getElementById("results");
+      grid.innerHTML = "";
+      document.getElementById("resultCount").textContent = `${results.length} résultat${results.length > 1 ? 's' : ''} intelligent${results.length > 1 ? 's' : ''}`;
+
+      results.forEach(item => {
+        const rawUrl = `https://raw.githubusercontent.com/ivanipote/PDF-search/main/${RECH_FOLDER}/${item.pdf.name}`;
+        const card = document.createElement("div");
+        card.className = "result-card";
+        card.innerHTML = `
+          <div class="score-badge">Score ${item.score}</div>
+          <div class="file-title">📄 ${item.pdf.name}</div>
+          <div class="snippet">${highlightText(item.snippet, item.terms)}</div>
+          <a href="${rawUrl}" download class="download-btn">Télécharger le PDF</a>
+        `;
+        grid.appendChild(card);
+      });
     }
 
     function showAllPDFs() {
       const grid = document.getElementById("results");
       grid.innerHTML = "";
       allPDFs.forEach(pdf => {
+        const rawUrl = `https://raw.githubusercontent.com/ivanipote/PDF-search/main/${RECH_FOLDER}/${pdf.name}`;
         const card = document.createElement("div");
         card.className = "result-card";
         card.innerHTML = `
           <div class="file-title">📄 ${pdf.name}</div>
-          <a href="https://raw.githubusercontent.com/ivanipote/PDF-search/main/${RECH_FOLDER}/${pdf.name}" download class="download-btn">Télécharger</a>
+          <a href="${rawUrl}" download class="download-btn">Télécharger</a>
         `;
         grid.appendChild(card);
       });
       document.getElementById("resultCount").textContent = `${allPDFs.length} PDF disponibles`;
     }
 
-    // Recherche dans le NOM DU FICHIER (marche à 100%)
-    document.getElementById("searchInput").addEventListener("input", () => {
-      const query = document.getElementById("searchInput").value.trim().toLowerCase();
-      const grid = document.getElementById("results");
-      grid.innerHTML = "";
-      let hits = 0;
-
-      allPDFs.forEach(pdf => {
-        if (pdf.name.toLowerCase().includes(query)) {
-          hits++;
-          const card = document.createElement("div");
-          card.className = "result-card";
-          card.innerHTML = `
-            <div class="file-title">📄 ${pdf.name}</div>
-            <a href="https://raw.githubusercontent.com/ivanipote/PDF-search/main/${RECH_FOLDER}/${pdf.name}" download class="download-btn">Télécharger</a>
-          `;
-          grid.appendChild(card);
-        }
-      });
-
-      document.getElementById("resultCount").textContent = query ? `${hits} résultat${hits > 1 ? 's' : ''}` : `${allPDFs.length} PDF disponibles`;
-      if (hits === 0 && query) grid.innerHTML = "<p style='grid-column:1/-1;text-align:center;color:#666;padding:50px;'>Aucun PDF avec ce mot dans le titre 😔</p>";
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const query = e.target.value.trim();
+      if (query.length < 2) {
+        showAllPDFs();
+      } else {
+        search(query);
+      }
     });
 
     loadPDFList();
