@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MACHINE OUTILS • Megane Learn</title>
+  <link rel="stylesheet" href="style.css">
+  <style>/* même style */</style>
+</head>
+<body>
+  <div class="container">
+    <h1>MACHINE OUTILS</h1>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html">ACCUEIL</a>
+    <a href="rech.html">RECHERCHE</a>
+    <a href="bt.html" class="active">PRO</a>
+    <a href="gd.html">GUIDE</a>
+  </nav>
+
+  <script>
+    const folder = "btfiles/machine_outils";
+    fetch(`https://api.github.com/repos/ivanipote/PDF-search/contents/${folder}`)
+      .then(r => r.json())
+      .then(files => {
+        const pdfs = files.filter(f => f.name.endsWith('.pdf'));
+        const grid = document.getElementById("grid");
+        pdfs.forEach(pdf => {
+          const url = `https://raw.githubusercontent.com/ivanipote/PDF-search/main/${folder}/${pdf.name}`;
+          grid.innerHTML += `
+            <div class="card">
+              <div class="card-title">📄 ${pdf.name}</div>
+              <a href="${url}" download class="download-btn">Télécharger</a>
+            </div>`;
+        });
+        if (pdfs.length === 0) grid.innerHTML = "<p style='color:#666'>Aucun PDF pour l'instant</p>";
+      });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
