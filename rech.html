@@ -7,99 +7,40 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs" type="module"></script>
   <style>
-    .search-container {
-      text-align: center;
-      padding: 60px 20px 40px;
-    }
-    #searchInput {
-      width: 90%;
-      max-width: 600px;
-      padding: 18px 25px;
-      font-size: 1.4rem;
-      border: 5px solid #0066FF;
-      border-radius: 50px;
-      outline: none;
-      box-shadow: 0 10px 30px rgba(0,102,255,0.2);
-    }
-    #status {
-      margin-top: 20px;
-      font-size: 1.1rem;
-      color: #555;
-    }
-    #resultCount {
-      margin: 30px 0;
-      font-size: 1.3rem;
-      color: #0066FF;
-      font-weight: bold;
-    }
-    .results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 25px;
-      padding: 20px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .result-card {
-      background: white;
-      border: 4px solid #0066FF;
-      border-radius: 20px;
-      padding: 25px;
-      text-align: center;
-      box-shadow: 0 12px 35px rgba(0,102,255,0.15);
-      transition: 0.3s;
-    }
-    .result-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 25px 50px rgba(0,102,255,0.25);
-    }
-    .file-title {
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #0066FF;
-      margin: 10px 0;
-    }
-    .snippet {
-      color: #555;
-      margin: 15px 0;
-      font-size: 1rem;
-    }
-    .download-btn {
-      background: #0066FF;
-      color: white;
-      padding: 12px 30px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      display: inline-block;
-      margin-top: 10px;
-    }
+    .search-container { text-align:center; padding:60px 20px 40px; }
+    #searchInput { width:90%; max-width:600px; padding:18px 30px; font-size:1.5rem; border:5px solid #0066FF; border-radius:50px; outline:none; box-shadow:0 10px 30px rgba(0,102,255,0.2); }
+    #status { margin-top:20px; font-size:1.2rem; color:#0066FF; font-weight:bold; }
+    #resultCount { margin:30px 0; font-size:1.4rem; color:#0066FF; font-weight:bold; }
+    .results-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:25px; padding:20px; max-width:1400px; margin:0 auto; }
+    .result-card { background:white; border:4px solid #0066FF; border-radius:20px; padding:25px; text-align:center; box-shadow:0 12px 35px rgba(0,102,255,0.15); transition:0.3s; }
+    .result-card:hover { transform:translateY(-10px); }
+    .file-title { font-weight:bold; font-size:1.3rem; color:#0066FF; margin:15px 0; }
+    .snippet { color:#555; margin:15px 0; }
+    .download-btn { background:#0066FF; color:white; padding:12px 30px; border-radius:50px; text-decoration:none; font-weight:bold; }
   </style>
 </head>
 <body>
 
   <div class="search-container">
-    <h1 style="color:#0066FF;margin-bottom:30px;">🔍 Recherche dans les PDF</h1>
-    <input type="text" id="searchInput" placeholder="moteur, schéma, frein ABS, embrayage, norme..." autofocus>
-    <div id="status">Chargement des PDF...</div>
+    <h1 style="color:#0066FF;">🔍 Recherche dans les PDF</h1>
+    <input type="text" id="searchInput" placeholder="Tape un mot-clé : moteur, schéma, frein, embrayage..." autofocus>
+    <div id="status">Chargement des PDF depuis rechfiles/...</div>
     <div id="resultCount"></div>
   </div>
 
   <div class="results-grid" id="results"></div>
 
-  <!-- BARRE DE NAVIGATION FIXE -->
   <nav class="bottom-nav">
     <a href="index.html">ACCUEIL</a>
-    <a <a href="propos.html">À PROPOS</a>
+    <a href="propos.html">À PROPOS</a>
     <a href="contact.html">CONTACT</a>
     <a href="confidentialite.html">CONFIDENTIALITÉ</a>
   </nav>
 
   <script type="module">
-    const RECH_FOLDER = "rechfiles"; // ← ton dossier avec les PDF
+    const RECH_FOLDER = "rechfiles"; // ← ton dossier
     let allPDFs = [];
 
-    // Chargement de la liste des PDF depuis le dossier rechfiles/
     async function loadPDFList() {
       try {
         const resp = await fetch(`https://api.github.com/repos/ivanipote/PDF-search/contents/${RECH_FOLDER}`);
@@ -108,15 +49,15 @@
           .filter(f => f.name.toLowerCase().endsWith('.pdf'))
           .map(f => ({
             name: f.name,
-            url: f.download_url
+            // LE TRUC QUI MARCHE À 100% : on utilise raw.githubusercontent.com au lieu de download_url
+            url: `https://raw.githubusercontent.com/ivanipote/PDF-search/main/${RECH_FOLDER}/${f.name}`
           }));
         document.getElementById("status").textContent = `${allPDFs.length} PDF chargés – tape un mot-clé !`;
       } catch (e) {
-        document.getElementById("status").textContent = "Erreur de chargement des PDF";
+        document.getElementById("status").textContent = "Erreur : vérifie que le dossier 'rechfiles' existe";
       }
     }
 
-    // Recherche
     const input = document.getElementById("searchInput");
     const resultsDiv = document.getElementById("results");
     const countDiv = document.getElementById("resultCount");
@@ -129,44 +70,37 @@
       if (query.length < 2) return;
 
       let hits = 0;
-
-      for (const pdf of allPDFs) {
+      allPDFs.forEach(async (pdf) => {
         try {
           const loadingTask = pdfjsLib.getDocument(pdf.url);
           const doc = await loadingTask.promise;
-          let foundInFile = false;
           let snippet = "";
+          let found = false;
 
-          for (let pageNum = 1; pageNum <= doc.numPages; pageNum++) {
-            const page = await doc.getPage(pageNum);
-            const textContent = await page.getTextContent();
-            const pageText = textContent.items.map(item => item.str).join(" ").toLowerCase();
-
+          for (let p = 1; p <= Math.min(doc.numPages, 10); p++) { // on limite à 10 pages pour la vitesse
+            const page = await doc.getPage(p);
+            const text = await page.getTextContent();
+            const pageText = text.items.map(i => i.str).join(" ").toLowerCase();
             if (pageText.includes(query)) {
-              if (!foundInFile) {
-                foundInFile = true;
-                hits++;
-              }
-              if (!snippet) {
-                snippet = textContent.items.map(item => item.str).join(" ").substring(0,250) + "...";
-              }
+              found = true;
+              if (!snippet) snippet = text.items.map(i => i.str).join(" ").substring(0, 250) + "...";
             }
           }
 
-          if (foundInFile) {
+          if (found) {
+            hits++;
             const card = document.createElement("div");
             card.className = "result-card";
             card.innerHTML = `
               <div class="file-title">📄 ${pdf.name}</div>
-              <div class="snippet">${snippet}</div>
-              <a href="${pdf.url}" download class="download-btn">Télécharger le PDF</a>
+              <div class="snippet">${snippet || "Contenu trouvé dans le PDF"}</div>
+              <a href="${pdf.url}" download class="download-btn">Télécharger</a>
             `;
             resultsDiv.appendChild(card);
+            countDiv.textContent = `${hits} résultat${hits > 1 ? 's' : ''} trouvé${hits > 1 ? 's' : ''}`;
           }
-        } catch (e) {}
-      }
-
-      countDiv.textContent = hits ? `${hits} PDF trouvé${hits > 1 ? 's' : ''}` : "Aucun résultat 😔";
+        } catch (e) { console.log("Erreur lecture PDF", pdf.name); }
+      });
     });
 
     loadPDFList();
@@ -174,4 +108,4 @@
 
   <script src="script.js"></script>
 </body>
-    </html>
+  </html>
