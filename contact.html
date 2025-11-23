@@ -12,33 +12,69 @@
       padding: 100px 20px 140px;
       text-align: center;
     }
-    h1 { color:#0066FF; font-size:3.5rem; margin-bottom:40px; }
+    h1 {
+      color: #0066FF;
+      font-size: 3.5rem;
+      margin-bottom: 40px;
+    }
     .card {
-      background:white;
-      border:5px solid #0066FF;
-      border-radius:28px;
-      padding:50px;
-      box-shadow:0 15px45px rgba(0,102,255,0.15);
-      margin:40px 0;
+      background: white;
+      border: 5px solid #0066FF;
+      border-radius: 30px;
+      padding: 60px 40px;
+      box-shadow: 0 20px 60px rgba(0,102,255,0.18);
+    }
+    .card p {
+      font-size: 1.4rem;
+      margin-bottom: 50px;
+      color: #444;
+      line-height: 1.8;
+    }
+
+    /* BOUTONS PARFAITEMENT CENTRÉS ET COHÉRENTS */
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
     }
     .btn {
-      display:inline-flex;
-      align-items:center;
-      gap:15px;
-      background:#25D366;
-      color:white;
-      padding:20px 40px;
-      font-size:1.6rem;
-      font-weight:bold;
-      border-radius:50px;
-      text-decoration:none;
-      margin:20px;
-      box-shadow:0 15px 40px rgba(37,211,102,0.4);
-      transition:0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      width: 320px;
+      max-width: 90%;
+      padding: 22px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+      transition: 0.4s;
     }
-    .btn:hover { transform:translateY(-10px); }
-    .btn.email { background:#0066FF; box-shadow:0 15px 40px rgba(0,102,255,0.4); }
-    .emoji { font-size:2.5rem; }
+    .btn:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+    .whatsapp {
+      background: #25D366;
+      color: white;
+    }
+    .email {
+      background: #0066FF;
+      color: white;
+    }
+    .emoji {
+      font-size: 2.2rem;
+    }
+
+    .footer-text {
+      margin-top: 60px 0 0;
+      font-size: 1.3rem;
+      color: #0066FF;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -47,25 +83,30 @@
     <h1>📱 Contact</h1>
 
     <div class="card">
-      <p style="font-size:1.5rem;margin-bottom:40px;">
-        Une question ? Un PDF qui manque ? Un bug sur le site ?<br>
-        Je réponds à tout le monde, très rapidement !
+      <p>
+        Une question ? Un PDF qui manque ? Une idée pour améliorer le site ?<br>
+        Je réponds personnellement à tout le monde, très rapidement !
       </p>
 
-      <a href="https://wa.me/2250503588336" class="btn" target="_blank">
-        <span class="emoji">📱</span> WhatsApp ⋅ +225 225 05 03 58 83 36
-      </a>
+      <div class="buttons">
+        <a href="https://wa.me/2250503588336" class="btn whatsapp" target="_blank">
+          <span class="emoji">📱</span> WhatsApp +225 05 03 58 83 36
+        </a>
 
-      <a href="mailto:ipoteivan23@gmail.com" class="btn email">
-        <span class="emoji">✉️</span> ipoteivan23@gmail.com
-      </a>
+        <a href="mailto:ipoteivan23@gmail.com" class="btn email">
+          <span class="emoji">✉️</span> ipoteivan23@gmail.com
+        </a>
+      </div>
 
-      <p style="margin-top:50px;font-size:1.3rem;color:#0066FF;font-weight:bold;">
+      <p class="footer-text">
         Abidjan, Côte d'Ivoire ⋅ Réponse garantie sous 24h ❤️
       </p>
     </div>
   </div>
 
+  </div>
+
+  <!-- BARRE FIXE EN BAS -->
   <nav class="bottom-nav">
     <a href="index.html">ACCUEIL</a>
     <a href="rech.html">RECHERCHE</a>
@@ -75,4 +116,4 @@
 
   <script src="script.js"></script>
 </body>
-  </html>
+</html>
