@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /searchfiles/
+
+Sitemap: https://ivanipote.github.io/PDF-search/sitemap.xml
