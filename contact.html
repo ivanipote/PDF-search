@@ -78,7 +78,28 @@
   </style>
 </head>
 <body>
+<!-- HAMBURGER -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>INFORMATIONS</h2>
+      <div class="close-btn" id="closeBtn">×</div>
+    </div>
+
+    <a href="propos.html">À PROPOS</a>
+    <a href="contact.html">CONTACT</a>
+    <a href="confi.html">CONFIDENTIALITÉ</a>
+    
+  </div>
   <div class="contact-container">
     <h1>📱 Contact</h1>
 
@@ -113,6 +134,28 @@
     <a href="bt.html">PRO</a>
     <a href="gd.html">GUIDE</a>
   </nav>
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const closeBtn = document.getElementById("closeBtn");
+
+    function openSidebar() {
+      sidebar.classList.add("active");
+      overlay.classList.add("active");
+      hamburger.classList.add("active");
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove("active");
+      overlay.classList.remove("active");
+      hamburger.classList.remove("active");
+    }
+
+    hamburger.onclick = openSidebar;
+    closeBtn.onclick = closeSidebar;
+    overlay.onclick = closeSidebar;
+  </script>
 
   <script src="script.js"></script>
 </body>
