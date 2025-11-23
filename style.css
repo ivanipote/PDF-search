@@ -47,17 +47,6 @@ body {
   font-size: 2.2rem;
   margin-bottom: 5px;
 }
-
-.bottom-nav a[href="index.html"]::before { content: "🏠"; }
-.bottom-nav a[href="rech.html"]::before { content: "🔍"; }
-.bottom-nav a[href="bt.html"]::before { content: "🔵"; }
-.bottom-nav a[href="gd.html"]::before { content: "📘"; }
-
-/* Animation au survol */
-.bottom-nav a:hover {
-  transform: translateY(-8px);
-}
-
 /* Onglet actif */
 .bottom-nav a.active {
   color: #0066FF;
