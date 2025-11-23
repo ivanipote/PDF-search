@@ -10,14 +10,6 @@
     <priority>1.0</priority>
   </url>
   
-  <!-- PAGE INDEX -->
-  <url>
-    <loc>https://ivanipote.github.io/PDF-search/index.html</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  
   <!-- PAGE RECHERCHE -->
   <url>
     <loc>https://ivanipote.github.io/PDF-search/rech.html</loc>
