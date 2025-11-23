@@ -224,21 +224,6 @@ body {
   font-size: 2.4rem;
   margin-bottom: 6px;
 }
-
-.bottom-nav a[href="index.html"]::before { content: "🏠"; }
-.bottom-nav a[href="rech.html"]::before { content: "🔍"; }
-.bottom-nav a[href="bt.html"]::before { content: "🔵"; }
-.bottom-nav a[href="gd.html"]::before { content: "📘"; }
-
-.bottom-nav a:hover { transform: translateY(-8px); }
-.bottom-nav a.active { color: #0066FF; font-weight: 800; }
-
-/* ==================== STYLE COMMUN POUR TOUTES LES PAGES MATIÈRE ==================== */
-.container {
-  padding: 100px 20px 120px;
-  text-align: center;
-}
-
 h1 {
   color: #0066FF;
   font-size: 3rem;
