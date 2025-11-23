@@ -182,4 +182,131 @@ body {
   .main-content {
     margin-left: 0 !important;
   }
+  /* style.css – VERSION FINALE UNIVERSELLE POUR LES 12 PAGES */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #ffffff;
+  color: #2d2d2d;
+  min-height: 100vh;
+  padding-bottom: 110px; /* espace pour la barre fixe en bas */
+}
+
+/* ==================== BARRE FIXE EN BAS (toutes les pages) ==================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 5px solid #0066FF;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 90px;
+  box-shadow: 0 -12px 40px rgba(0,102,255,0.15);
+  z-index: 9999;
+}
+
+.bottom-nav a {
+  color: #555;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  flex: 1;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.bottom-nav a:hover, .bottom-nav a.active {
+  color: #0066FF;
+}
+
+.bottom-nav a::before {
+  display: block;
+  font-size: 2.4rem;
+  margin-bottom: 6px;
+}
+
+.bottom-nav a[href="index.html"]::before { content: "🏠"; }
+.bottom-nav a[href="rech.html"]::before { content: "🔍"; }
+.bottom-nav a[href="bt.html"]::before { content: "🔵"; }
+.bottom-nav a[href="gd.html"]::before { content: "📘"; }
+
+.bottom-nav a:hover { transform: translateY(-8px); }
+.bottom-nav a.active { color: #0066FF; font-weight: 800; }
+
+/* ==================== STYLE COMMUN POUR TOUTES LES PAGES MATIÈRE ==================== */
+.container {
+  padding: 100px 20px 120px;
+  text-align: center;
+}
+
+h1 {
+  color: #0066FF;
+  font-size: 3rem;
+  margin-bottom: 50px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border: 5px solid #0066FF;
+  border-radius: 24px;
+  padding: 35px;
+  box-shadow: 0 15px 45px rgba(0,102,255,0.15);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 30px 70px rgba(0,102,255,0.3);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0066FF;
+  margin-bottom: 20px;
+  word-break: break-all;
+}
+
+.download-btn {
+  background: #0066FF;
+  color: white;
+  padding: 15px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Message quand pas de PDF */
+.grid:empty::after {
+  content: "Aucun PDF pour l'instant";
+  grid-column: 1 / -1;
+  color: #666;
+  padding: 50px;
+  font-size: 1.3rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  h1 { font-size: 2.5rem; }
+  }
                                 }
