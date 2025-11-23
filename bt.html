@@ -6,7 +6,7 @@
   <title>PRO • Matières • Megane Learn</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Hamburger bouton */
+    /* Hamburger */
     .hamburger {
       position: fixed;
       top: 20px;
@@ -42,7 +42,7 @@
       top: 0;
       left: -100%;
       width: 100%;
-      max-width: 320px;
+      max-width: 340px;
       height: 100vh;
       background: white;
       border-right: 5px solid #0066FF;
@@ -50,6 +50,7 @@
       transition: left 0.4s ease;
       z-index: 1000;
       overflow-y: auto;
+      box-shadow: 10px 0 40px rgba(0,0,0,0.2);
     }
     .sidebar.active { left: 0; }
 
@@ -57,37 +58,38 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 40px;
-      padding: 0 10px;
+      margin-bottom: 50px;
     }
     .sidebar-header h2 {
       color: #0066FF;
-      font-size: 1.8rem;
+      font-size: 2rem;
     }
     .close-btn {
-      font-size: 2.5rem;
+      font-size: 3rem;
       color: #0066FF;
       cursor: pointer;
+      font-weight: bold;
     }
 
     .sidebar a {
       display: block;
-      padding: 20px 25px;
+      padding: 22px 30px;
+      margin: 10px 0;
+      background: #f8fbff;
       color: #0066FF;
       text-decoration: none;
       font-weight: 700;
-      font-size: 1.2rem;
-      margin: 8px 0;
-      border-radius: 15px;
-      transition: 0.3s;
+      font-size: 1.3rem;
+      border-radius: 20px;
+      transition: 0.4s;
     }
     .sidebar a:hover {
       background: #0066FF;
       color: white;
-      transform: translateX(10px);
+      transform: translateX(15px);
     }
 
-    /* Overlay quand sidebar ouvert */
+    /* Overlay */
     .overlay {
       position: fixed;
       top: 0;
@@ -102,18 +104,27 @@
     }
     .overlay.active { opacity: 1; visibility: visible; }
 
-    /* Contenu principal */
+    /* Contenu */
     .main-content {
-      padding: 100px 30px 120px;
+      padding: 90px 40px 100px;
       text-align: center;
     }
     .main-content h1 {
       color: #0066FF;
-      font-size: 2.8rem;
-      margin-bottom: 30px;
-      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 10px;
     }
-  </style>
+   section {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    margin: 40px auto;
+    max-width: 1200px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+ </style>
 </head>
 <body>
 
@@ -144,17 +155,27 @@
     <a href="et.html">ETUDE D'ÉQUIPEMENTS</a>
     <a href="ef.html">EFFICACITÉ ÉNERGÉTIQUE</a>
     <a href="ln.html">ELN DE PUISSANCE</a>
-    <a href="ma.html">MAINTENANCE</a>
-  <!-- tu peux en ajouter autant que tu veux -->
+    <a href="mt.html">MAINTENANCE</a>
   </div>
 
   <!-- CONTENU PRINCIPAL -->
-
-    <h1>PRO – Choisis une matière</h1>
-    <p>Clique sur le bouton ☰ en haut à gauche pour ouvrir le menu des matières.<br>
-      Tous les cours PDF sont classés par matière pour une recherche rapide et efficace.
+  <div class="main-content">
+    <h1>Choisis une matière</h1>
+    <section>
+    <p style="font-size:1.5rem;max-width:800px;margin:50px auto;line-height:1.8;">
+      Clique sur le bouton ☰ en haut à gauche pour ouvrir le menu complet des matières.
+      Tous les cours sont classés et prêts à être téléchargés en 1 clic.
     </p>
-  </div>
+    </section>
+  
+  
+    <section>
+    <p>les pdf son fournis pas des site fiable et sont tous téléchargeable 
+    vous pouvez télécharger assez pour des recherches spécifique 
+    </p>
+ 
+    </section>
+   </div>
 
   <!-- BARRE FIXE EN BAS -->
   <nav class="bottom-nav">
@@ -185,15 +206,8 @@
     hamburger.onclick = openSidebar;
     closeBtn.onclick = closeSidebar;
     overlay.onclick = closeSidebar;
-    document.getElementById("filterInput").addEventListener("input", function() {
-  const term = this.value.toLowerCase();
-  document.querySelectorAll(".card").forEach(card => {
-    const title = card.querySelector(".card-title").textContent.toLowerCase();
-    card.style.display = title.includes(term) ? "" : "none";
-  });
-});
   </script>
 
   <script src="script.js"></script>
 </body>
-  </html>
+</html>
