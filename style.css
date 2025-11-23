@@ -124,3 +124,62 @@ body {
     padding: 40px 20px;
   }
 }
+/* ==================== SIDEBAR VERTICALE – UNIQUEMENT SUR L'ACCUEIL ==================== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100vh;
+  background: white;
+  border-right: 5px solid #0066FF;
+  padding: 120px 30px 100px;
+  box-shadow: 8px 0 30px rgba(0,102,255,0.12);
+  z-index: 997;
+  overflow-y: auto;
+}
+
+.sidebar h3 {
+  text-align: center;
+  color: #0066FF;
+  font-size: 1.8rem;
+  margin-bottom: 50px;
+  font-weight: 800;
+}
+
+.sidebar a {
+  display: block;
+  padding: 20px 25px;
+  margin: 12px 0;
+  background: #f8fbff;
+  color: #0066FF;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 18px;
+  transition: all 0.4s;
+  border-left: 5px solid transparent;
+}
+
+.sidebar a:hover {
+  background: #0066FF;
+  color: white;
+  transform: translateX(15px);
+  border-left: 5px solid white;
+  box-shadow: 0 10px 25px rgba(0,102,255,0.3);
+}
+
+/* Responsive : sidebar devient haut de page sur mobile */
+@media (max-width: 900px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 60px 20px 40px;
+    border-right: none;
+    border-bottom: 5px solid #0066FF;
+  }
+  .main-content {
+    margin-left: 0 !important;
+  }
+                                }
