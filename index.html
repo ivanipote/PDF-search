@@ -3,37 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Megane Learn • Accueil</title>
+  <title>PRO • Matières • Megane Learn</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Hamburger */
+    .hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      background: #0066FF;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,102,255,0.5);
+      z-index: 1001;
+      transition: 0.3s;
+    }
+    .hamburger span {
+      width: 30px;
+      height: 4px;
+      background: white;
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: 0.4s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px,8px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(8px,-8px); }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      max-width: 340px;
+      height: 100vh;
+      background: white;
+      border-right: 5px solid #0066FF;
+      padding: 100px 30px 100px;
+      transition: left 0.4s ease;
+      z-index: 1000;
+      overflow-y: auto;
+      box-shadow: 10px 0 40px rgba(0,0,0,0.2);
+    }
+    .sidebar.active { left: 0; }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+    .sidebar-header h2 {
+      color: #0066FF;
+      font-size: 2rem;
+    }
+    .close-btn {
+      font-size: 3rem;
+      color: #0066FF;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 22px 30px;
+      margin: 10px 0;
+      background: #f8fbff;
+      color: #0066FF;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.3rem;
+      border-radius: 20px;
+      transition: 0.4s;
+    }
+    .sidebar a:hover {
+      background: #0066FF;
+      color: white;
+      transform: translateX(15px);
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.6);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.4s;
+    }
+    .overlay.active { opacity: 1; visibility: visible; }
+
+    /* Contenu */
+    .main-content {
+      padding: 90px 40px 100px;
+      text-align: center;
+    }
+    .main-content h1 {
+      color: #0066FF;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+   section {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    margin: 40px auto;
+    max-width: 1200px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+ </style>
 </head>
 <body>
 
-  <!-- SIDEBAR UNIQUEMENT SUR L'ACCUEIL -->
-  <div class="sidebar">
-    <h3>Informations</h3>
-    <a href="contact.html"><center>📱 Contact</center></a>
-    <a href="propos.html"><center>👤 À propos</center></a>
-    <a href="confi.html"><center>🔒 Confidentialité</center></a>
+  <!-- HAMBURGER -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>INFORMATIONS</h2>
+      <div class="close-btn" id="closeBtn">×</div>
+    </div>
+
+    <a href=propos.html">À PROPOS</a>
+    <a href="contact.html">CONTACT</a>
+    <a href="confi.html">CONFIDENTIALITÉ</a>
+    
   </div>
 
   <!-- CONTENU PRINCIPAL -->
   <div class="main-content">
-    <h1 style="text-align:center;color:#0066FF;font-size:3.5rem;margin-top:100px;">
-      Megane-Learn
-    </h1>
-    <p style="text-align:center;font-size:1.5rem;max-width:800px;margin:50px auto;line-height:1.8;">
-      Tous les cours PDF pour Bac Pro & BT Électromécanique<br>
-      Gratuit · Anonyme · Sans inscription
+    <h1>BIENVENUE SUR MEGANE-LEARN</h1>
+    <section>
+    <p style="font-size:1.5rem;max-width:800px;margin:50px auto;line-height:1.8;">
+      Clique sur le bouton ☰ en haut à gauche pour plus d'informations .
     </p>
-  </div>
+    </section>
+  
+  
+    <section>
+    <p>les pdf son fournis pas des site fiable et sont tous téléchargeable 
+    vous pouvez télécharger assez pour des recherches spécifique 
+    </p>
+ 
+    </section>
+   </div>
 
   <!-- BARRE FIXE EN BAS -->
   <nav class="bottom-nav">
-    <a href="index.html" class="active">ACCUEIL</a>
+    <a href="index.html">ACCUEIL</a>
     <a href="rech.html">RECHERCHE</a>
-    <a href="bt.html">PRO</a>
+    <a href="bt.html" class="active">PRO</a>
     <a href="gd.html">GUIDE</a>
   </nav>
+
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const closeBtn = document.getElementById("closeBtn");
+
+    function openSidebar() {
+      sidebar.classList.add("active");
+      overlay.classList.add("active");
+      hamburger.classList.add("active");
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove("active");
+      overlay.classList.remove("active");
+      hamburger.classList.remove("active");
+    }
+
+    hamburger.onclick = openSidebar;
+    closeBtn.onclick = closeSidebar;
+    overlay.onclick = closeSidebar;
+  </script>
 
   <script src="script.js"></script>
 </body>
