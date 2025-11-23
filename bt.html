@@ -149,6 +149,9 @@
 
   <!-- CONTENU PRINCIPAL -->
   <div class="main-content">
+    <div><div style="text-align:center;margin:40px 0;">
+  <input type="text" id="filterInput" placeholder="Rechercher dans cette matière..." style="padding:15px;width:80%;max-width:500px;border:4px solid #0066FF;border-radius:50px;font-size:1.2rem;">
+    </div>
     <h1>🔵 PRO – Choisis une matière</h1>
     <p style="font-size:1.4rem;max-width:700px;margin:40px auto;line-height:1.8;">
       Clique sur le bouton ☰ en haut à gauche pour ouvrir le menu des matières.<br>
@@ -185,6 +188,13 @@
     hamburger.onclick = openSidebar;
     closeBtn.onclick = closeSidebar;
     overlay.onclick = closeSidebar;
+    document.getElementById("filterInput").addEventListener("input", function() {
+  const term = this.value.toLowerCase();
+  document.querySelectorAll(".card").forEach(card => {
+    const title = card.querySelector(".card-title").textContent.toLowerCase();
+    card.style.display = title.includes(term) ? "" : "none";
+  });
+});
   </script>
 
   <script src="script.js"></script>
