@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contenu Premium - Megane Learn</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css"> <!-- ✅ VOTRE CSS EXISTANT -->
   <style>
-    /* Styles de base */
+    /* Styles spécifiques à la page premium */
     * {
       margin: 0;
       padding: 0;
@@ -119,41 +120,11 @@
       box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
     }
     
-    /* Barre de navigation en bas */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: white;
-      display: flex;
-      justify-content: space-around;
-      padding: 15px 0;
-      box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-      z-index: 100;
-    }
-    
-    .bottom-nav a {
-      text-decoration: none;
+    .loading {
+      text-align: center;
       color: #666;
-      font-weight: 600;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 0.9rem;
-      transition: 0.3s;
-      padding: 5px 10px;
-      border-radius: 10px;
-    }
-    
-    .bottom-nav a.active {
-      color: #0066FF;
-      background: #f0f7ff;
-    }
-    
-    .bottom-nav a i {
-      font-size: 1.4rem;
-      margin-bottom: 5px;
+      padding: 20px;
+      grid-column: 1 / -1;
     }
   </style>
 </head>
@@ -174,114 +145,103 @@
   <!-- CONTENU PREMIUM -->
   <section id="premium-content">
     <div class="premium-grid" id="premium-files">
-      <!-- Les fichiers premium seront chargés ici -->
       <div class="loading">Chargement du contenu premium...</div>
     </div>
   </section>
 
-  <!-- BARRE DE NAVIGATION -->
+  <!-- ✅ BARRE DE NAVIGATION ORIGINALE (comme index.html) -->
   <nav class="bottom-nav">
-    <a href="index.html">
-      <i class="fas fa-home"></i>
-      <span>ACCUEIL</span>
-    </a>
-    <a href="rech.html">
-      <i class="fas fa-search"></i>
-      <span>RECHERCHE</span>
-    </a>
-    <a href="premium.html" class="active">
-      <i class="fas fa-crown"></i>
-      <span>PREMIUM</span>
-    </a>
-    <a href="gd.html">
-      <i class="fas fa-book"></i>
-      <span>GUIDE</span>
-    </a>
+    <a href="index.html">ACCUEIL</a>
+    <a href="rech.html">RECHERCHE</a>
+    <a href="bt.html">PRO</a>
+    <a href="gd.html">GUIDE</a>
   </nav>
 
-<script>
-// Fonction pour scanner automatiquement le dossier premiumfiles
-async function loadPremiumFilesAuto() {
-  const container = document.getElementById('premium-files');
-  container.innerHTML = '<div class="loading">🔍 Scan des fichiers premium...</div>';
+  <script>
+    // Fonction pour scanner automatiquement le dossier premiumfiles
+    async function loadPremiumFilesAuto() {
+      const container = document.getElementById('premium-files');
+      container.innerHTML = '<div class="loading">🔍 Scan des fichiers premium...</div>';
 
-  try {
-    // Scan du dossier premiumfiles via GitHub API
-    const response = await fetch('https://api.github.com/repos/ivanipote/PDF-search/contents/premiumfiles');
-    
-    if (response.ok) {
-      const files = await response.json();
+      try {
+        // Scan du dossier premiumfiles via GitHub API
+        const response = await fetch('https://api.github.com/repos/ivanipote/PDF-search/contents/premiumfiles');
+        
+        if (response.ok) {
+          const files = await response.json();
+          
+          const premiumFiles = files.map(file => ({
+            name: file.name,
+            path: `https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/${file.name}`,
+            type: file.name.split('.').pop(),
+            description: `Document premium - ${file.name}`,
+            size: `${(file.size / 1024 / 1024).toFixed(1)} MB`
+          }));
+
+          // Affichage des fichiers
+          if (premiumFiles.length === 0) {
+            container.innerHTML = '<div class="premium-card"><h3>📭 Aucun fichier premium</h3><p>Ajoutez des fichiers dans le dossier premiumfiles</p></div>';
+            return;
+          }
+          
+          container.innerHTML = premiumFiles.map(file => `
+            <div class="premium-card">
+              <h3>📄 ${file.name}</h3>
+              <div class="file-info">
+                ${file.description} | Taille: ${file.size} | Type: ${file.type.toUpperCase()}
+              </div>
+              <a href="${file.path}" class="btn-premium" download="${file.name}">
+                <i class="fas fa-download"></i> Télécharger
+              </a>
+            </div>
+          `).join('');
+          
+        } else {
+          throw new Error('Dossier premiumfiles non trouvé');
+        }
+        
+      } catch (error) {
+        console.log('Mode manuel activé:', error.message);
+        loadPremiumFilesManual(); // Fallback manuel
+      }
+    }
+
+    // Fallback manuel si l'API ne fonctionne pas
+    function loadPremiumFilesManual() {
+      const container = document.getElementById('premium-files');
       
-      const premiumFiles = files.map(file => ({
-        name: file.name,
-        path: `https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/${file.name}`,
-        type: file.name.split('.').pop(),
-        description: `Document premium - ${file.name}`,
-        size: `${(file.size / 1024 / 1024).toFixed(1)} MB`
-      }));
-
-      // Affichage des fichiers
-      if (premiumFiles.length === 0) {
-        container.innerHTML = '<div class="premium-card"><h3>📭 Aucun fichier premium</h3><p>Ajoutez des fichiers dans le dossier premiumfiles</p></div>';
+      // Liste manuelle de fallback - À MODIFIER
+      const manualFiles = [
+        {
+          name: "1.pdf",
+          path: "https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/1.pdf",
+          type: "pdf",
+          description: "Document premium exclusif",
+          size: "1.2 MB"
+        }
+        // AJOUTEZ VOS FICHIERS ICI EN CAS DE PROBLÈME
+      ];
+      
+      if (manualFiles.length === 0) {
+        container.innerHTML = '<div class="premium-card"><h3>📭 Aucun fichier premium disponible</h3><p>Revenez bientôt !</p></div>';
         return;
       }
       
-      container.innerHTML = premiumFiles.map(file => `
+      container.innerHTML = manualFiles.map(file => `
         <div class="premium-card">
           <h3>📄 ${file.name}</h3>
           <div class="file-info">
-            ${file.description} | Taille: ${file.size} | Type: ${file.type.toUpperCase()}
+            ${file.description} | Taille: ${file.size}
           </div>
           <a href="${file.path}" class="btn-premium" download="${file.name}">
             <i class="fas fa-download"></i> Télécharger
           </a>
         </div>
       `).join('');
-      
-    } else {
-      throw new Error('Dossier premiumfiles non trouvé');
     }
-    
-  } catch (error) {
-    console.log('Mode manuel activé:', error.message);
-    loadPremiumFilesManual(); // Fallback manuel
-  }
-}
 
-// Fallback manuel si l'API ne fonctionne pas
-function loadPremiumFilesManual() {
-  const container = document.getElementById('premium-files');
-  
-  // Liste manuelle de fallback - À MODIFIER
-  const manualFiles = [
-    {
-      name: "1.pdf",
-      path: "https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/1.pdf",
-      type: "pdf",
-      description: "Document premium exclusif",
-      size: "1.2 MB"
-    }
-    // AJOUTEZ VOS FICHIERS ICI EN CAS DE PROBLÈME
-  ];
-  
-  if (manualFiles.length === 0) {
-    container.innerHTML = '<div class="premium-card"><h3>📭 Aucun fichier premium disponible</h3><p>Revenez bientôt !</p></div>';
-    return;
-  }
-  
-  container.innerHTML = manualFiles.map(file => `
-    <div class="premium-card">
-      <h3>📄 ${file.name}</h3>
-      <div class="file-info">
-        ${file.description} | Taille: ${file.size}
-      </div>
-      <a href="${file.path}" class="btn-premium" download="${file.name}">
-        <i class="fas fa-download"></i> Télécharger
-      </a>
-    </div>
-  `).join('');
-}
-
-// Initialisation
-document.addEventListener('DOMContentLoaded', loadPremiumFilesAuto);
-</script>
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', loadPremiumFilesAuto);
+  </script>
+</body>
+</html>
