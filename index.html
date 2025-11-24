@@ -1,100 +1,630 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SearchFiles - Recherche de documents PDF</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO META TAGS -->
+  <title>Megane Learn - Cours PDF Gratuits, Recherche Documents Éducatifs | Plateforme Étudiante</title>
+  <meta name="description" content="✅ Recherchez et téléchargez gratuitement des cours PDF, documents éducatifs, ressources étudiantes. Moteur de recherche intelligent pour fichiers PDF, MP3, images. Plateforme 100% gratuite pour étudiants.">
+  <meta name="keywords" content="cours PDF, documents gratuits, ressources étudiantes, téléchargement PDF, recherche fichiers, éducation, études, mémoires, exercices, PDF gratuits, cours en ligne">
+  <meta name="author" content="Megane Learn">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="googlebot" content="index, follow">
+  
+  <!-- OPEN GRAPH -->
+  <meta property="og:title" content="Megane Learn - Cours PDF Gratuits | Recherche Documents">
+  <meta property="og:description" content="Plateforme de recherche et téléchargement de documents éducatifs gratuits pour étudiants">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ivanipote.github.io/PDF-search/">
+  <meta property="og:image" content="https://ivanipote.github.io/PDF-search/logo.png">
+  <meta property="og:site_name" content="Megane Learn">
+  
+  <!-- TWITTER CARD -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Megane Learn - Cours PDF Gratuits">
+  <meta name="twitter:description" content="Recherchez et téléchargez des documents éducatifs gratuits">
+  
+  <!-- SCHEMA STRUCTURED DATA -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Megane Learn",
+    "description": "Plateforme de recherche et téléchargement de documents éducatifs gratuits",
+    "url": "https://ivanipote.github.io/PDF-search/",
+    "applicationCategory": "EducationApplication",
+    "operatingSystem": "Any",
+    "permissions": "browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "author": {
+      "@type": "Organization", 
+      "name": "Megane Learn",
+      "url": "https://ivanipote.github.io/PDF-search/"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://ivanipote.github.io/PDF-search/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  
+  <!-- CANONICAL URL -->
+  <link rel="canonical" href="https://ivanipote.github.io/PDF-search/" />
+  
+  <!-- STYLESHEETS -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* [VOS STYLES EXISTANTS RESTENT ICI] */
+    .hero { padding: 120px 20px 80px; text-align: center; background: linear-gradient(135deg, #0066FF 0%, #0047b3 100%); color: white; border-radius: 0 0 30px 30px; margin-bottom: 40px; }
+    /* ... gardez tous vos styles actuels ... */
+  </style>
+</head>
+  <style>
+    /* Styles uniquement pour la section hero et recherche */
+    .hero {
+      padding: 120px 20px 80px;
+      text-align: center;
+      background: linear-gradient(135deg, #0066FF 0%, #0047b3 100%);
+      color: white;
+      border-radius: 0 0 30px 30px;
+      margin-bottom: 40px;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+    
+    .search-container {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .search-box {
+      display: flex;
+      background: white;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .search-box input {
+      flex: 1;
+      padding: 20px 25px;
+      border: none;
+      outline: none;
+      font-size: 1.1rem;
+      color: #333;
+    }
+    
+    .search-btn {
+      background: #0066FF;
+      color: white;
+      border: none;
+      padding: 0 30px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
+    
+    .search-btn:hover {
+      background: #0047b3;
+    }
+    
+    #search-results {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .result-item {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      border-left: 4px solid #0066FF;
+    }
+    
+    .result-item h3 {
+      color: #0066FF;
+      margin-bottom: 10px;
+    }
+    
+    .result-item .file-info {
+      color: green;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    
+    .result-item .file-preview {
+      color: green;
+      font-style: italic;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .loading {
+      text-align: center;
+      color: green;
+      padding: 20px;
+    }
+
+    .error {
+      text-align: center;
+      color: red;
+      padding: 20px;
+    }
+
+    /* Styles pour le sidebar (conservés de votre code original) */
+    .hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      background: #0066FF;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,102,255,0.5);
+      z-index: 1001;
+      transition: 0.3s;
+    }
+    .hamburger span {
+      width: 30px;
+      height: 4px;
+      background: white;
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: 0.4s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px,8px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(8px,-8px); }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      max-width: 340px;
+      height: 100vh;
+      background: white;
+      border-right: 5px solid #0066FF;
+      padding: 100px 30px 100px;
+      transition: left 0.4s ease;
+      z-index: 1000;
+      overflow-y: auto;
+      box-shadow: 10px 0 40px rgba(0,0,0,0.2);
+    }
+    .sidebar.active { left: 0; }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+    .sidebar-header h2 {
+      color: #0066FF;
+      font-size: 2rem;
+    }
+    .close-btn {
+      font-size: 3rem;
+      color: #0066FF;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 22px 30px;
+      margin: 10px 0;
+      background: #f8fbff;
+      color: #0066FF;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.3rem;
+      border-radius: 20px;
+      transition: 0.4s;
+    }
+    .sidebar a:hover {
+      background: #0066FF;
+      color: white;
+      transform: translateX(15px);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.6);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.4s;
+    }
+    .overlay.active { opacity: 1; visibility: visible; }
+  /* ✅ STYLES POUR LE LOGO EN-TÊTE À DROITE */
+.header-logo {
+  position: fixed;
+  top: 20px;
+  right: 20px; /* À droite maintenant */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1002;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 15px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 102, 255, 0.2);
+  border: 2px solid #0066FF;
+  backdrop-filter: blur(10px);
+}
+
+.logo-header {
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.logo-text {
+  color: #0066FF;
+  font-weight: 700;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+/* ✅ Le hamburger reste à gauche */
+.hamburger {
+  position: fixed;
+  top: 20px;
+  left: 20px; /* Reste à gauche */
+  width: 60px;
+  height: 60px;
+  background: #0066FF;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0,102,255,0.5);
+  z-index: 1003;
+  transition: 0.3s;
+}
+
+/* ✅ Ajustement du hero pour l'espace supplémentaire */
+.hero {
+  padding: 140px 20px 80px;
+  text-align: center;
+  background: linear-gradient(135deg, #0066FF 0%, #0047b3 100%);
+  color: white;
+  border-radius: 0 0 30px 30px;
+  margin-bottom: 40px;
+    }
+  </style>
 </head>
 <body>
-    <!-- Sidebar Hamburger -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    <nav class="sidebar" id="sidebar">
-        <button class="close-sidebar" id="closeSidebar">×</button>
-        <ul class="sidebar-menu">
-            <li><a href="propos.html">À PROPOS</a></li>
-            <li><a href="contact.html">CONTACT</a></li>
-            <li><a href="confi.html">CONFIDENTIALITÉ</a></li>
-            <li><a href="premium.html">PREMIUM</a></li>
-        </ul>
-    </nav>
+  <!-- HAMBURGER -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-    <!-- Barre de recherche fixe avec bouton hamburger -->
-    <header class="search-header">
-        <div class="search-container">
-            <button class="hamburger-btn" id="hamburgerBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <form id="searchForm" class="search-form">
-                <input type="text" id="searchInput" placeholder="Rechercher dans les documents PDF..." class="search-input">
-                <button type="submit" class="search-button">Rechercher</button>
-            </form>
-        </div>
-    </header>
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay"></div>
 
-    <!-- Contenu principal -->
-    <main class="main-content">
-        <div class="container">
-            <!-- Description du site -->
-            <section class="description-section">
-                <h1>Bienvenue sur SearchFiles</h1>
-                <div class="description-content">
-                    <p class="intro-text">
-                        SearchFiles est la plateforme ultime pour retrouver rapidement et efficacement vos documents PDF. 
-                        Notre moteur de recherche intelligent explore le contenu de vos fichiers pour vous offrir des résultats précis et pertinents.
-                    </p>
-                    
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <h3>🔍 Recherche Avancée</h3>
-                            <p>Notre technologie explore le texte intégral de vos documents PDF, pas seulement les noms de fichiers.</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <h3>⚡ Résultats Rapides</h3>
-                            <p>Obtenez des résultats instantanés grâce à notre indexation optimisée des documents.</p>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <h3>🎯 Précision Maximale</h3>
-                            <p>Des algorithmes intelligents qui comprennent le contexte de votre recherche.</p>
-                        </div>
-                    </div>
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <!-- ✅ LOGO AJOUTÉ ICI -->
+    <div style="text-align: center; margin-bottom: 30px; padding: 0 20px;">
+      <img src="logo.png" 
+           alt="Logo Megane Learn" 
+           style="width: 80px; height: 80px; border-radius: 20px; border: 3px solid #0066FF; margin-bottom: 10px;">
+      <h2 style="color: #0066FF; margin: 0; font-size: 1.5rem;">MEGANE LEARN</h2>
+      <p style="color: #666; margin: 5px 0 0 0; font-size: 0.9rem;">Recherche de PDF</p>
+    </div>
+    <div class="close-btn" id="closeBtn">×</div>
+  </div>
+    
+  <!-- HAMBURGER (gauche) -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+    <!-- [VOS LIENS EXISTANTS RESTENT] -->
+  <a href="propos.html">À PROPOS</a>
+  <a href="contact.html">CONTACT</a>
+  <a href="confi.html">CONFIDENTIALITÉ</a>
 
-                    <!-- Section Premium modifiée -->
-                    <div class="premium-info">
-                        <h2>Version Premium</h2>
-                        <div class="premium-features">
-                            <div class="premium-feature">
-                                <h4>📚 Tous types de fichiers</h4>
-                                <p>Accédez à la recherche dans tous les formats : PDF, APK, HTML, XLX, ZIP, ISO et bien plus encore.</p>
-                            </div>
-                            <div class="premium-feature">
-                                <h4>🚀 Fonctionnalités avancées</h4>
-                                <p>Recherche encore plus intelligente avec des options de filtrage et tri avancés.</p>
-                            </div>
-                            <div class="premium-feature">
-                                <h4>💾 Stockage étendu</h4>
-                                <p>Capacité d'indexation augmentée pour gérer des milliers de fichiers.</p>
-                            </div>
-                        </div>
-                        <p class="premium-note">Pour accéder à la version Premium, rendez-vous dans la section "PREMIUM" du menu.</p>
-                    </div>
-                </div>
-            </section>
+  </div>
 
-            <!-- Section des résultats -->
-            <section id="resultsSection" class="results-section hidden">
-                <h2><center>Résultats de la recherche</center></h2>
-                <div id="resultsContainer" class="results-container">
-                    <!-- Les résultats apparaîtront ici -->
-                </div>
-            </section>
-        </div>
-    </main>
+  <!-- ✅ LOGO FIXE EN HAUT À DROITE -->
+  <div class="header-logo">
+    <img src="logo.png" alt="Megane Learn" class="logo-header">
+    <span class="logo-text">Megane Learn</span>
+  </div>
 
-    <script src="script.js"></script>
+  <!-- ... le reste de votre code existant ... -->
+  
+  
+
+
+  <!-- CONTENU PRINCIPAL -->
+  
+  <!-- Bannière Hero avec recherche -->
+  <section class="hero">
+    <!-- Bannière Hero avec recherche -->
+<section class="hero">
+  <h1>Tous vos cours en PDF, gratuitement</h1>
+  <p>Megane Learn vous aide à trouver les ressources dont vous avez besoin pour réussir. Recherchez parmi des milliers de documents de qualité.</p>
+  <!-- ... votre recherche ... -->
+</section>
+
+<!-- ✅ AJOUTEZ CETTE SECTION CACHÉE POUR SEO -->
+<div style="display: none;" aria-hidden="true">
+  <h1>Megane Learn - Moteur de Recherche PDF,MP3,IMG... Gratuit</h1>
+  <h2>Plateforme de Recherche de Documents Éducatifs,De musique</h2>
+  <p>Megane Learn est une plateforme de recherche et téléchargement de documents éducatifs distrayant gratuits. 
+  Trouvez des cours PDF, ressources universitaires, exercices corrigés et mémoires gratuitement.</p>
+  
+  <h3>Services offerts :</h3>
+  <ul>
+    <li>Recherche de documents PDF et MP3</li>
+    <li>Téléchargement gratuit de ressources étudiantes</li>
+    <li>Prévisualisation des fichiers avant téléchargement via github</li>
+    <li>Interface intuitive pour étudiants</li>
+  </ul>
+  
+  <p>Mots-clés : recherche PDF, cours gratuits, documents universitaires, ressources étudiantes, 
+  téléchargement éducatif, plateforme éducation, études en ligne, bibliothèque numérique,MP3 download,math pdf,pdf des cours professionnel, lycée professionnel,site de ivan</p>
+</div>
+<div class="search-container">
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Recherchez un cours (ex: 'Biologie cellulaire', 'Droit constitutionnel')">
+        <button class="search-btn" id="search-button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+</div>
+
+    <!-- Résultats de recherche -->
+<div id="search-results">
+  <!-- ... contenu existant ... -->
+</div>
+  </section>
+
+  <!-- Résultats de recherche -->
+  <div id="search-results">
+    <div class="loading" id="loading-message">Chargement des fichiers depuis GitHub...</div>
+  </div>
+
+  <!-- BARRE FIXE EN BAS -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="active">ACCUEIL</a>
+    <a href="rech.html">RECHERCHE</a>
+    <a href="bt.html">PRO</a>
+    <a href="gd.html">GUIDE</a>
+  </nav>
+
+  <script>
+    // Gestion du sidebar
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const closeBtn = document.getElementById("closeBtn");
+
+    function openSidebar() {
+      sidebar.classList.add("active");
+      overlay.classList.add("active");
+      hamburger.classList.add("active");
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove("active");
+      overlay.classList.remove("active");
+      hamburger.classList.remove("active");
+    }
+
+    hamburger.onclick = openSidebar;
+    closeBtn.onclick = closeSidebar;
+    overlay.onclick = closeSidebar;
+
+    // Index global des fichiers
+    let fileIndex = [];
+
+    // Récupération automatique des fichiers depuis GitHub
+    async function loadFilesFromGitHub() {
+      const loadingMessage = document.getElementById('loading-message');
+      
+      try {
+        // URL de l'API GitHub pour votre dépôt
+        const repoUrl = 'https://api.github.com/repos/ivanipote/PDF-search/contents/searchfiles';
+        
+        const response = await fetch(repoUrl);
+        
+        if (!response.ok) {
+          throw new Error('Erreur de chargement des fichiers');
+        }
+        
+        const files = await response.json();
+        
+        // Construction de l'index
+        fileIndex = files.map(file => {
+          // URL raw pour le téléchargement direct
+          const rawUrl = `https://raw.githubusercontent.com/ivanipote/PDF-search/main/searchfiles/${file.name}`;
+          
+          return {
+            name: file.name,
+            path: rawUrl, // Utilisation de l'URL raw
+            type: file.name.split('.').pop().toLowerCase(),
+            content: file.name.replace(/\.[^/.]+$/, ""), // Nom sans extension pour la recherche
+            preview: `Fichier: ${file.name} | Taille: ${(file.size / 1024).toFixed(1)} KB | Type: ${file.name.split('.').pop().toUpperCase()}`,
+            size: file.size,
+            githubUrl: file.html_url
+          };
+        });
+        
+        loadingMessage.style.display = 'none';
+        console.log(`${fileIndex.length} fichiers chargés depuis GitHub`);
+        
+      } catch (error) {
+        console.error('Erreur lors du chargement des fichiers:', error);
+        loadingMessage.innerHTML = `<div class="error">Erreur de chargement des fichiers: ${error.message}</div>`;
+      }
+    }
+
+    // Fonction de recherche
+    function performSearch(query) {
+      const resultsContainer = document.getElementById('search-results');
+      resultsContainer.innerHTML = '';
+      
+      if (!query.trim()) {
+        resultsContainer.innerHTML = '<div class="loading">Entrez un terme de recherche pour commencer</div>';
+        return;
+      }
+
+      const searchTerms = query.toLowerCase().split(' ');
+      const results = fileIndex.filter(file => {
+        const searchableText = (file.name + ' ' + file.content).toLowerCase();
+        return searchTerms.some(term => searchableText.includes(term));
+      });
+
+      if (results.length === 0) {
+        resultsContainer.innerHTML = '<div class="loading">Aucun résultat trouvé pour "' + query + '"</div>';
+        return;
+      }
+
+      // Afficher le nombre de résultats
+      const resultsCount = document.createElement('div');
+      resultsCount.style.cssText = 'text-align: center; color: #666; margin-bottom: 20px; font-size: 1.1rem;';
+      resultsCount.textContent = `${results.length} résultat(s) trouvé(s) pour "${query}"`;
+      resultsContainer.appendChild(resultsCount);
+
+      // Afficher chaque résultat
+      results.forEach(file => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'result-item';
+        
+        // Icône selon le type de fichier
+        const fileIcon = file.type === 'pdf' ? '📄' : 
+                        ['jpg', 'png', 'jpeg', 'gif', 'webp'].includes(file.type) ? '🖼️' : 
+                        ['mp3', 'wav', 'ogg', 'm4a'].includes(file.type) ? '🎵' :
+                        ['mp4', 'avi', 'mov', 'mkv'].includes(file.type) ? '🎬' : '📁';
+        
+        resultItem.innerHTML = `
+          <h3>${fileIcon} ${file.name}</h3>
+          <div class="file-info">
+            Type: ${file.type.toUpperCase()} | 
+            Taille: ${(file.size / 1024).toFixed(1)} KB
+          </div>
+          <div class="file-preview">${file.preview}</div>
+          <div style="margin-top: 15px;">
+            <a href="${file.path}" 
+               style="display: inline-block; padding: 10px 20px; background: #0066FF; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;" 
+               download="${file.name}">
+               <i class="fas fa-download"></i> Télécharger
+            </a>
+            <a href="${file.githubUrl}" 
+               target="_blank"
+               style="display: inline-block; padding: 10px 20px; background: #333; color: white; text-decoration: none; border-radius: 5px;">
+               <i class="fab fa-github"></i> Voir sur GitHub
+            </a>
+          </div>
+        `;
+        
+        resultsContainer.appendChild(resultItem);
+      });
+    }
+
+    // Initialisation au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Charger les fichiers depuis GitHub
+      loadFilesFromGitHub();
+      
+      // Événements de recherche
+      document.getElementById('search-button').addEventListener('click', function() {
+        const query = document.getElementById('search-input').value;
+        performSearch(query);
+      });
+
+      document.getElementById('search-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          const query = this.value;
+          performSearch(query);
+        }
+      });
+
+      // Recherche en temps réel (déclenché après 2 secondes d'inactivité)
+      let searchTimeout;
+      document.getElementById('search-input').addEventListener('input', function(e) {
+        clearTimeout(searchTimeout);
+        const query = this.value;
+        
+        if (query.length >= 2) {
+          searchTimeout = setTimeout(() => {
+            performSearch(query);
+          }, 500);
+        } else if (query.length === 0) {
+          document.getElementById('search-results').innerHTML = '<div class="loading">Entrez un terme de recherche pour commencer</div>';
+        }
+      });
+    });
+  </script>
+
+  <!-- Lien FontAwesome pour les icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- ✅ AJOUTEZ CE SCHEMA AVANT LA FIN DU BODY -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Megane Learn",
+    "url": "https://ivanipote.github.io/PDF-search/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://ivanipote.github.io/PDF-search/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- VOTRE SCRIPT JS EXISTANT -->
+  <script>
+    // [Votre code JavaScript existant]
+  </script>
 </body>
 </html>
