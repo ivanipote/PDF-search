@@ -157,91 +157,149 @@
     <a href="gd.html">GUIDE</a>
   </nav>
 
-  <script>
-    // Fonction pour scanner automatiquement le dossier premiumfiles
-    async function loadPremiumFilesAuto() {
-      const container = document.getElementById('premium-files');
-      container.innerHTML = '<div class="loading">🔍 Scan des fichiers premium...</div>';
+<!-- ✅ COLLEZ CE SCRIPT COMPLET -->
+<script>
+// Fonction pour scanner automatiquement le dossier premiumfiles
+async function loadPremiumFilesAuto() {
+  const container = document.getElementById('premium-files');
+  container.innerHTML = '<div class="loading">🔍 Scan des fichiers premium...</div>';
 
-      try {
-        // Scan du dossier premiumfiles via GitHub API
-        const response = await fetch('https://api.github.com/repos/ivanipote/PDF-search/contents/premiumfiles');
-        
-        if (response.ok) {
-          const files = await response.json();
-          
-          const premiumFiles = files.map(file => ({
-            name: file.name,
-            path: `https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/${file.name}`,
-            type: file.name.split('.').pop(),
-            description: `Document premium - ${file.name}`,
-            size: `${(file.size / 1024 / 1024).toFixed(1)} MB`
-          }));
-
-          // Affichage des fichiers
-          if (premiumFiles.length === 0) {
-            container.innerHTML = '<div class="premium-card"><h3>📭 Aucun fichier premium</h3><p>Ajoutez des fichiers dans le dossier premiumfiles</p></div>';
-            return;
-          }
-          
-          container.innerHTML = premiumFiles.map(file => `
-            <div class="premium-card">
-              <h3>📄 ${file.name}</h3>
-              <div class="file-info">
-                ${file.description} | Taille: ${file.size} | Type: ${file.type.toUpperCase()}
-              </div>
-              <a href="${file.path}" class="btn-premium" download="${file.name}">
-                <i class="fas fa-download"></i> Télécharger
-              </a>
-            </div>
-          `).join('');
-          
-        } else {
-          throw new Error('Dossier premiumfiles non trouvé');
-        }
-        
-      } catch (error) {
-        console.log('Mode manuel activé:', error.message);
-        loadPremiumFilesManual(); // Fallback manuel
-      }
-    }
-
-    // Fallback manuel si l'API ne fonctionne pas
-    function loadPremiumFilesManual() {
-      const container = document.getElementById('premium-files');
+  try {
+    // Scan du dossier premiumfiles via GitHub API
+    const response = await fetch('https://api.github.com/repos/ivanipote/PDF-search/contents/premiumfiles');
+    
+    if (response.ok) {
+      const files = await response.json();
       
-      // Liste manuelle de fallback - À MODIFIER
-      const manualFiles = [
-        {
-          name: "1.pdf",
-          path: "https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/1.pdf",
-          type: "pdf",
-          description: "Document premium exclusif",
-          size: "1.2 MB"
-        }
-        // AJOUTEZ VOS FICHIERS ICI EN CAS DE PROBLÈME
-      ];
-      
-      if (manualFiles.length === 0) {
-        container.innerHTML = '<div class="premium-card"><h3>📭 Aucun fichier premium disponible</h3><p>Revenez bientôt !</p></div>';
+      const premiumFiles = files.map(file => {
+        const fileType = file.name.split('.').pop().toLowerCase();
+        const fileIcon = getFileIcon(fileType);
+        
+        return {
+          name: file.name,
+          path: `https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/${file.name}`,
+          type: fileType,
+          icon: fileIcon,
+          description: getFileDescription(fileType, file.name),
+          size: `${(file.size / 1024 / 1024).toFixed(1)} MB`
+        };
+      });
+
+      // Affichage des fichiers
+      if (premiumFiles.length === 0) {
+        container.innerHTML = '<div class="premium-card"><h3>📭 Aucun fichier premium</h3><p>Ajoutez des fichiers dans le dossier premiumfiles</p></div>';
         return;
       }
       
-      container.innerHTML = manualFiles.map(file => `
+      container.innerHTML = premiumFiles.map(file => `
         <div class="premium-card">
-          <h3>📄 ${file.name}</h3>
+          <h3>${file.icon} ${file.name}</h3>
           <div class="file-info">
-            ${file.description} | Taille: ${file.size}
+            ${file.description} | Taille: ${file.size} | Type: ${file.type.toUpperCase()}
           </div>
           <a href="${file.path}" class="btn-premium" download="${file.name}">
             <i class="fas fa-download"></i> Télécharger
           </a>
         </div>
       `).join('');
+      
+    } else {
+      throw new Error('Dossier premiumfiles non trouvé');
     }
+    
+  } catch (error) {
+    console.log('Mode manuel activé:', error.message);
+    loadPremiumFilesManual(); // Fallback manuel
+  }
+}
 
-    // Initialisation
-    document.addEventListener('DOMContentLoaded', loadPremiumFilesAuto);
+// Icônes selon le type de fichier
+function getFileIcon(fileType) {
+  const icons = {
+    pdf: '📄',
+    apk: '📱',
+    exe: '⚙️',
+    zip: '📦',
+    rar: '📦',
+    mp3: '🎵',
+    mp4: '🎬',
+    jpg: '🖼️',
+    png: '🖼️',
+    doc: '📝',
+    docx: '📝',
+    xls: '📊',
+    xlsx: '📊',
+    ppt: '📊',
+    pptx: '📊',
+    txt: '📄'
+  };
+  return icons[fileType] || '📁';
+}
+
+// Description selon le type de fichier
+function getFileDescription(fileType, fileName) {
+  const descriptions = {
+    pdf: 'Document PDF',
+    apk: 'Application Android',
+    exe: 'Application Windows',
+    zip: 'Archive compressée',
+    rar: 'Archive compressée',
+    mp3: 'Fichier audio',
+    mp4: 'Vidéo',
+    jpg: 'Image',
+    png: 'Image',
+    doc: 'Document Word',
+    docx: 'Document Word',
+    xls: 'Tableur Excel',
+    xlsx: 'Tableur Excel'
+  };
+  
+  return descriptions[fileType] || `Fichier ${fileType.toUpperCase()}`;
+}
+
+// Fallback manuel si l'API ne fonctionne pas
+function loadPremiumFilesManual() {
+  const container = document.getElementById('premium-files');
+  
+  // Liste manuelle de fallback - AJOUTEZ VOS FICHIERS ICI
+  const manualFiles = [
+    {
+      name: "1.pdf",
+      path: "https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/1.pdf",
+      type: "pdf",
+      icon: "📄",
+      description: "Document PDF premium",
+      size: "1.2 MB"
+    },
+    {
+      name: "mon-app.apk",
+      path: "https://raw.githubusercontent.com/ivanipote/PDF-search/main/premiumfiles/mon-app.apk", 
+      type: "apk",
+      icon: "📱",
+      description: "Application Android",
+      size: "15.3 MB"
+    }
+    // AJOUTEZ VOS FICHIERS ICI
+  ];
+  
+  if (manualFiles.length === 0) {
+    container.innerHTML = '<div class="premium-card"><h3>📭 Aucun fichier premium disponible</h3><p>Revenez bientôt !</p></div>';
+    return;
+  }
+  
+  container.innerHTML = manualFiles.map(file => `
+    <div class="premium-card">
+      <h3>${file.icon} ${file.name}</h3>
+      <div class="file-info">
+        ${file.description} | Taille: ${file.size} | Type: ${file.type.toUpperCase()}
+      </div>
+      <a href="${file.path}" class="btn-premium" download="${file.name}">
+        <i class="fas fa-download"></i> Télécharger
+      </a>
+    </div>
+  `).join('');
+}
+
+// Initialisation
+document.addEventListener('DOMContentLoaded', loadPremiumFilesAuto);
   </script>
-</body>
-</html>
