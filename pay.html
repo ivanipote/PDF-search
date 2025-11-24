@@ -25,6 +25,7 @@
     </p>
 
     <input type="text" id="nom" placeholder="Nom" required>
+    >
     <input type="text" id="prenom" placeholder="Prénom" required>
     
     <input type="text" id="whatsapp" placeholder="WhatsApp (ex: 0503588336)" required>
@@ -35,7 +36,7 @@
     <button id="btn">ENVOYER LA DEMANDE</button>
 
     <div id="instructions" class="instructions">
-      <h1 style="color:#8e2de2;">Paiement 100 FCFA par Wave</h1>
+      <h3 style="color:#8e2de2;">Paiement 100 FCFA par Wave</h3>
       <p>
         Envoie <strong>100 FCFA</strong> au numéro :<br>
         <strong style="font-size:2.4rem;color:#8e2de2;">05 03 58 83 36</strong><br><br>
@@ -68,7 +69,8 @@
         return;
       }
 
-      const tonNumero = "0503588336"; // ← TON NUMÉRO
+      // TON NUMÉRO (déjà mis)
+      const tonNumero = "0503588336";
 
       const message = encodeURIComponent(
         `NOUVELLE DEMANDE PREMIUM\n\n` +
@@ -78,15 +80,8 @@
         `Prix : 100 FCFA`
       );
 
-      // LE LIEN QUI OUVRE WHATSAPP DIRECT SANS DEMANDER L'APP
-      const lienDirect = `whatsapp://send?phone=225\( {0503588336}&text= \){Bonjour j'ai effectué le payement ✅ j'aimerais obtenir ma clé d'accès 🙂}`;
-
-      // Essaie d’abord la méthode directe, sinon fallback
-      try {
-        location.href = lienDirect;
-      } catch (e) {
-        location.href = `https://wa.me/225\( {0503588336}?text= \){message}`;
-      }
+      // OUVRE WHATSAPP DIRECT SANS POPUP
+      location.href = `https://wa.me/225\( {tonNumero}?text= \){message}`;
 
       document.getElementById("instructions").style.display = "block";
       document.getElementById("btn").textContent = "MESSAGE ENVOYÉ !";
