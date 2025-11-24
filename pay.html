@@ -6,45 +6,129 @@
   <title>Paiement Premium • Megane Learn</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body{background:linear-gradient(135deg,#8e2de2,#4a00e0);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
-    .card{background:white;padding:70px 50px;border-radius:40px;box-shadow:0 35px 90px rgba(0,0,0,0.5);text-align:center;max-width:600px;width:100%;}
-    h1{font-size:3.8rem;color:#8e2de2;margin-bottom:30px;}
-    input{width:100%;padding:18px;font-size:1.4rem;margin:15px 0;border:4px solid #8e2de2;border-radius:20px;}
-    small{color:#888;font-size:1rem;display:block;margin-top:-10px;margin-bottom:15px;}
-    button{width:100%;padding:20px;background:#8e2de2;color:white;border:none;border-radius:50px;font-size:1.8rem;font-weight:800;cursor:pointer;margin-top:20px;}
-    .instructions{background:#f0f5ff;padding:30px;border-radius:20px;margin:40px 0;font-size:1.3rem;line-height:1.8;display:none;}
-    .back-btn{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#8e2de2;color:white;padding:15px 40px;border-radius:50px;text-decoration:none;font-weight:bold;z-index:999;}
+    body{background:linear-gradient(135deg,#8e2de2,#4a00e0);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 20px 140px;}
+    .card{
+      background:white;
+      padding:70px 50px;
+      border-radius:40px;
+      box-shadow:0 35px 90px rgba(0,0,0,0.5);
+      text-align:center;
+      max-width:600px;
+      width:100%;
+    }
+    h1{
+      font-size:4rem;
+      color:#8e2de2;
+      margin-bottom:30px;
+    }
+    .form-group{
+      margin:25px 0;
+      text-align:left;
+    }
+    label{
+      display:block;
+      color:#555;
+      font-weight:600;
+      margin-bottom:8px;
+      font-size:1.1rem;
+    }
+    input{
+      width:100%;
+      padding:18px 22px;
+      font-size:1.5rem;
+      background:white;
+      border:5px solid #8e2de2;
+      border-radius:22px;
+      outline:none;
+      transition:0.3s;
+    }
+    input:focus{
+      border-color:#5a00c7;
+      box-shadow:0 0 20px rgba(142,45,226,0.3);
+    }
+    small{
+      color:#888;
+      font-size:1rem;
+      display:block;
+      margin-top:6px;
+    }
+    button{
+      width:100%;
+      padding:22px;
+      background:#8e2de2;
+      color:white;
+      border:none;
+      border-radius:50px;
+      font-size:1.9rem;
+      font-weight:800;
+      cursor:pointer;
+      margin-top:30px;
+      box-shadow:0 15px 40px rgba(142,45,226,0.4);
+      transition:0.3s;
+    }
+    button:hover{
+      transform:translateY(-8px);
+      box-shadow:0 25px 60px rgba(142,45,226,0.5);
+    }
+    .instructions{
+      background:#f0f5ff;
+      padding:35px;
+      border-radius:25px;
+      margin:50px 0;
+      font-size:1.35rem;
+      line-height:1.8;
+      display:none;
+    }
   </style>
 </head>
 <body>
 
   <div class="card">
     <h1>Accès PREMIUM</h1>
-    <p style="font-size:1.5rem;margin-bottom:30px;">
+    <p style="font-size:1.6rem;margin-bottom:40px;color:#555;">
       Remplis le formulaire → je t’envoie ton code d’accès unique par WhatsApp
     </p>
 
-    <input type="text" id="nom" placeholder="Nom" required>
-    <input type="text" id="prenom" placeholder="Prénom" required>
-    
-    <input type="text" id="whatsapp" placeholder="Ex : 503588336 ou 0503588336" required>
-    <small>8 ou 10 chiffres · espaces et tirets acceptés</small>
-    
-    <input type="text" id="wave" placeholder="Numéro Wave (ex: 0712345678)" required>
+    <div class="form-group">
+      <label>Nom</label>
+      <input type="text" id="nom" required>
+    </div>
+
+    <div class="form-group">
+      <label>Prénom</label>
+      <input type="text" id="prenom" required>
+    </div>
+
+    <div class="form-group">
+      <label>Numéro WhatsApp</label>
+      <input type="text" id="whatsapp" placeholder="Ex : 503588336 ou 0503588336" required>
+      <small>8 ou 10 chiffres · espaces et tirets acceptés</small>
+    </div>
+
+    <div class="form-group">
+      <label>Numéro Wave</label>
+      <input type="text" id="wave" placeholder="Ex : 0712345678" required>
+    </div>
 
     <button id="btn">CONTINUER</button>
 
     <div id="instructions" class="instructions">
-      <h3>Paiement 100 FCFA par Wave</h3>
+      <h3 style="color:#8e2de2;font-size:2rem;">Paiement 100 FCFA par Wave</h3>
       <p>
         Envoie <strong>100 FCFA</strong> au numéro Wave :<br>
-        <strong style="font-size:2.2rem;color:#8e2de2;">07 XX XX XX XX</strong><br><br>
+        <strong style="font-size:2.4rem;color:#8e2de2;">07 XX XX XX XX</strong><br><br>
         Dès réception, je t’envoie ton code d’accès unique (valable 24h).
       </p>
     </div>
   </div>
 
-  <a href="index.html" class="back-btn">Retour à l'accueil</a>
+  <!-- BARRE DE NAVIGATION FIXE EN BAS -->
+  <nav class="bottom-nav">
+    <a href="index.html">ACCUEIL</a>
+    <a href="rech.html">RECHERCHE</a>
+    <a href="bt.html">PRO</a>
+    <a href="gd.html">GUIDE</a>
+  </nav>
 
   <script>
     const btn = document.getElementById("btn");
@@ -56,7 +140,7 @@
       const wave = document.getElementById("wave").value.trim();
 
       if (whatsapp.length < 8 || whatsapp.length > 10) {
-        alert("Numéro WhatsApp invalide ! (8 à 10 chiffres)");
+        alert("Numéro WhatsApp invalide !");
         return;
       }
       if (!nom || !prenom || !whatsapp || !wave) {
@@ -64,7 +148,7 @@
         return;
       }
 
-      const tonNumero = "0503588336"; // ← Ton numéro
+      const tonNumero = "0503588336"; // Ton numéro
 
       const message = encodeURIComponent(
         `NOUVELLE DEMANDE PREMIUM\n\n` +
@@ -83,4 +167,4 @@
     };
   </script>
 </body>
-      </html>
+</html>
