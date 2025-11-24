@@ -35,7 +35,7 @@
     <button id="btn">ENVOYER LA DEMANDE</button>
 
     <div id="instructions" class="instructions">
-      <h3 style="color:#8e2de2;">Paiement 100 FCFA par Wave</h3>
+      <h1 style="color:#8e2de2;">Paiement 100 FCFA par Wave</h1>
       <p>
         Envoie <strong>100 FCFA</strong> au numéro :<br>
         <strong style="font-size:2.4rem;color:#8e2de2;">05 03 58 83 36</strong><br><br>
@@ -79,13 +79,13 @@
       );
 
       // LE LIEN QUI OUVRE WHATSAPP DIRECT SANS DEMANDER L'APP
-      const lienDirect = `whatsapp://send?phone=225\( {tonNumero}&text= \){message}`;
+      const lienDirect = `whatsapp://send?phone=225\( {0503588336}&text= \){Bonjour j'ai effectué le payement ✅ j'aimerais obtenir ma clé d'accès 🙂}`;
 
       // Essaie d’abord la méthode directe, sinon fallback
       try {
         location.href = lienDirect;
       } catch (e) {
-        location.href = `https://wa.me/225\( {tonNumero}?text= \){message}`;
+        location.href = `https://wa.me/225\( {0503588336}?text= \){message}`;
       }
 
       document.getElementById("instructions").style.display = "block";
