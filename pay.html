@@ -5,103 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accès Premium • 5 000 FCFA</title>
   <style>
-    body {font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:20px;min-height:100vh;display:flex;align-items:center;justify-content:center;}
-    .container {max-width:480px;width:100%;background:white;padding:40px;border-radius:18px;box-shadow:0 15px 35px rgba(0,0,0,0.2);text-align:center;}
-    h1 {color:#333;margin-bottom:10px;font-size:28px;}
-    input {width:100%;padding:15px;margin:12px 0;border:2px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box;}
-    input:focus {border-color:#667eea;outline:none;}
-    button {width:100%;padding:16px;margin-top:20px;background:#25D366;color:white;font-weight:bold;font-size:19px;border:none;border-radius:12px;cursor:pointer;}
-    button:hover {background:#1da851;}
-    .price {background:#fff3e0;padding:18px;border-radius:12px;margin:25px 0;font-size:20px;font-weight:bold;color:#ef6c00;}
-    .code-section {margin-top:50px;padding-top:30px;border-top:2px dashed #ccc;}
-    .success {color:green;font-size:18px;margin:15px 0;}
-    .error {color:red;font-size:18px;margin:15px 0;}
+    body{font-family:Arial;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:20px;display:flex;min-height:100vh;align-items:center;justify-content:center;}
+    .box{max-width:480px;width:100%;background:#fff;padding:40px;border-radius:18px;box-shadow:0 15px 35px rgba(0,0,0,0.2);text-align:center;}
+    h1{font-size:28px;margin-bottom:10px;color:#333;}
+    input{width:100%;padding:15px;margin:12px 0;border:2px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box;}
+    input:focus{border-color:#667eea;outline:none;}
+    button{width:100%;padding:16px;margin-top:20px;background:#25D366;color:#fff;font-weight:bold;font-size:19px;border:none;border-radius:12px;cursor:pointer;}
+    button:hover{background:#1da851;}
+    .price{background:#fff3e0;padding:18px;border-radius:12px;margin:25px 0;font-size:20px;font-weight:bold;color:#ef6c00;}
+    .codebox{margin-top:50px;padding-top:30px;border-top:3px dashed #ccc;}
+    .success{color:green;font-size:18px;margin:15px 0;}
+    .error{color:red;font-size:18px;margin:15px 0;}
   </style>
 </head>
 <body>
 
-<div class="container">
+<div class="box">
   <h1>Accès Premium</h1>
-  <p>Remplis → paye → reçois ton code MG-xxx en 30 secondes</p>
-  
-  <input type="text" id="nom" placeholder="Nom complet" required>
-  <input type="tel" id="whatsapp" placeholder="Ton WhatsApp (ex: 05 03 58 83 36)" required>
+  <p>Remplis le formulaire → paiement → code reçu en 30 secondes</p>
+
+  <input type="text" id="prenom" placeholder="Prénom" required>
+  <input type="text" id="nom" placeholder="Nom de famille" required>
+  <input type="tel" id="whatsapp" placeholder="Ton WhatsApp (ex: 0503588336)" required>
   <input type="tel" id="paiement" placeholder="Numéro utilisé pour payer (Wave/OM/Moov)" required>
 
-  <div class="price">Prix unique : 5 000 FCFA</div>
-
+  <div class="price">Prix : 5 000 FCFA</div>
   <button onclick="envoyerDemande()">J’ai payé → Recevoir mon code</button>
 
-  <!-- ========= PARTIE CODE D'ACCÈS ========= -->
-  <div class="code-section">
-    <p>Déjà reçu ton code ? Tape-le ici :</p>
+  <div class="codebox">
+    <p>Entre ton code reçu par WhatsApp :</p>
     <input type="text" id="code" placeholder="Ex: MG-827" style="text-transform:uppercase;">
-    <button onclick="verifierCode()" style="background:#6c5ce7;margin-top:10px;">Accéder au Premium</button>
+    <button onclick="verifierCode()" style="background:#6c5ce7;">Accéder au Premium</button>
     <div id="resultat"></div>
   </div>
 </div>
 
 <script>
-// TON LIEN FIXE (déjà intégré partout)
-const tonLienWhatsApp = "https://wa.me/2250503588336";
+// Ton lien WhatsApp
+const tonLien = "https://wa.me/2250503588336";
+
+// Génère un code aléatoire unique
+function genererCode() {
+  return "MG-" + Math.floor(100 + Math.random() * 900);
+}
 
 function envoyerDemande() {
+  const prenom = document.getElementById('prenom').value.trim();
   const nom = document.getElementById('nom').value.trim();
   const whatsappRaw = document.getElementById('whatsapp').value.trim().replace(/[^0-9]/g, '');
   const paiement = document.getElementById('paiement').value.trim();
 
-  if (!nom || !whatsappRaw || !paiement) {
+  if (!prenom || !nom || !whatsappRaw || !paiement) {
     alert("Tous les champs sont obligatoires !");
     return;
   }
 
-  // Numéro WhatsApp utilisateur → lien cliquable
-  let whatsappPropre = whatsappRaw;
-  if (whatsappPropre.startsWith("0")) whatsappPropre = "225" + whatsappPropre.substring(1);
-  if (!whatsappPropre.startsWith("225")) whatsappPropre = "225" + whatsappPropre;
-  const lienUser = "https://wa.me/" + whatsappPropre;
+  // Numéro complet : si commence par 0 → on ajoute 225 devant
+  let numeroComplet = whatsappRaw;
+  if (numeroComplet.startsWith("0") && numeroComplet.length === 10) {
+    numeroComplet = "225" + numeroComplet.substring(1);
+  } else if (!numeroComplet.startsWith("225")) {
+    numeroComplet = "225" + numeroComplet;
+  }
+  const lienUser = "https://wa.me/" + numeroComplet;
 
-  const message = 
-`Bonjour ! J'ai effectué le paiement%0A%0A` +
-`Nom : ${encodeURIComponent(nom)}%0A` +
-`WhatsApp : ${lienUser}%0A` +
-`Numéro paiement : ${paiement}%0A%0A` +
-`Montant : 5 000 FCFA%0A%0A` +
-`Envoie-moi ma clé d'accès (MG-xxx)`;
+  // Code unique généré pour cet utilisateur
+  const codeUnique = genererCode();
+  localStorage.setItem('code_attendu', codeUnique);
 
-  // Ouvre DIRECTEMENT ton lien avec le message complet
-  window.open(tonLienWhatsApp + "?text=" + message, '_blank');
+  const message =
+`Bonjour ! J'ai effectué le paiement
 
-  alert("WhatsApp s’ouvre sur ta conversation !\nEnvoie le message → je te donne ton code immédiatement");
+Prénom : ${prenom}
+Nom : ${nom}
+WhatsApp : ${lienUser}
+Numéro paiement : ${paiement}
+
+Montant : 5 000 FCFA
+
+Envoie-moi ma clé d'accès → je te réponds avec : ${codeUnique}`;
+
+  window.open(tonLien + "?text=" + encodeURIComponent(message), '_blank');
+  alert("WhatsApp ouvert ! Envoie le message → je te réponds avec ton code " + codeUnique);
 }
 
-// === VÉRIFICATION DES CODES ===
-const codesValides = [
-  "MG-001","MG-002","MG-003","MG-004","MG-005","MG-006","MG-007","MG-008","MG-009","MG-010",
-  "MG-011","MG-012","MG-013","MG-014","MG-015" // ajoute autant que tu veux
-];
-
 function verifierCode() {
-  const code = document.getElementById('code').value.trim().toUpperCase();
-  const resultat = document.getElementById('resultat');
+  const saisi = document.getElementById('code').value.trim().toUpperCase();
+  const attendu = localStorage.getItem('code_attendu');
+  const res = document.getElementById('resultat');
 
-  if (!code) {
-    resultat.innerHTML = "<p class='error'>Entre ton code</p>";
+  if (!saisi) {
+    res.innerHTML = "<p class='error'>Entre ton code</p>";
     return;
   }
 
-  if (codesValides.includes(code)) {
-    let used = JSON.parse(localStorage.getItem('used_premium_codes') || '[]');
-    if (used.includes(code)) {
-      resultat.innerHTML = "<p class='error'>Ce code a déjà été utilisé</p>";
-    } else {
-      used.push(code);
-      localStorage.setItem('used_premium_codes', JSON.stringify(used));
-      resultat.innerHTML = "<p class='success'>Accès autorisé ! Redirection...</p>";
-      setTimeout(() => window.location.href = "premium.html", 1500);
-    }
+  if (saisi === attendu && attendu) {
+    localStorage.setItem('acces_premium', 'oui');
+    res.innerHTML = "<p class='success'>Accès autorisé ! Redirection...</p>";
+    setTimeout(() => location.href = "premium.html", 1500);
   } else {
-    resultat.innerHTML = "<p class='error'>Code invalide</p>";
+    res.innerHTML = "<p class='error'>Code incorrect ou pas encore reçu</p>";
   }
 }
 </script>
