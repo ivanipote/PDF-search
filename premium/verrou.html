@@ -3,147 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accès Premium • Megane Learn</title>
+  <title>Megane Learn • Accès Premium</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body {
-      height: 100%;
-      background: linear-gradient(135deg, #000, #1a0000);
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-    }
-
-    .lock-screen {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
+    html, body { height:100%; overflow:hidden; }
+    body {
+      background:#000;
+      color:#fff;
+      font-family:'Segoe UI',sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     .card {
-      background: rgba(15,15,15,0.95);
-      border: 6px solid gold;
-      border-radius: 35px;
-      padding: 4rem 3rem;
-      width: 100%;
-      max-width: 520px;
-      box-shadow: 0 30px 100px rgba(255,215,0,0.5);
+      background:rgba(20,20,20,0.97);
+      border:4px solid gold;
+      border-radius:30px;
+      padding:3rem 2.5rem;
+      width:90%;
+      max-width:420px;
+      text-align:center;
+      box-shadow:0 20px 60px rgba(255,215,0,0.4);
     }
 
-    .icon {
-      font-size: 7rem;
-      color: gold;
-      margin-bottom: 3s infinite;
+    .lock {
+      font-size:5rem;
+      color:gold;
+      margin-bottom:1.5rem;
+      animation:pulse 2s infinite;
     }
 
-    @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
 
     h1 {
-      font-size: 3.8rem;
-      background: linear-gradient(90deg, gold, #ff0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 2rem 0 1rem;
+      font-size:2.4rem;
+      background:linear-gradient(90deg,gold,#ff0);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin:1rem 0;
     }
 
-    .subtitle {
-      font-size: 2rem;
-      color: #ff3366;
-      font-weight: bold;
-      margin: 2rem 0;
+    .info {
+      font-size:1.4rem;
+      color:#ff3366;
+      font-weight:bold;
+      margin:2rem 0 1.5rem;
     }
 
-    input[type="password"] {
-      width: 100%;
-      padding: 1.8rem 2.5rem;
-      font-size: 2rem;
-      background: #111;
-      color: white;
-      border: 5px solid gold;
-      border-radius: 60px;
-      text-align: center;
-      outline: none;
-      letter-spacing: 10px;
-      margin: 2.5rem 0;
-      box-shadow: 0 0 40px rgba(255,215,0,0.4);
+    input {
+      width:100%;
+      padding:1.3rem 2rem;
+      font-size:1.6rem;
+      background:#111;
+      color:white;
+      border:4px solid gold;
+      border-radius:50px;
+      text-align:center;
+      outline:none;
+      letter-spacing:6px;
+      margin:1.5rem 0;
     }
 
-    input[type="password"]:focus {
-      box-shadow: 0 0 80px rgba(255,215,0,0.9);
+    input:focus { box-shadow:0 0 40px rgba(255,215,0,0.7); }
+
+    .btns {
+      display:flex;
+      flex-direction:column;
+      gap:1.5rem;
+      margin-top:2.5rem;
     }
 
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      margin-top: 3rem;
+    button, a.btn {
+      padding:1.3rem;
+      font-size:1.5rem;
+      font-weight:bold;
+      border-radius:50px;
+      cursor:pointer;
+      transition:0.3s;
     }
 
-    .btn {
-      padding: 1.8rem;
-      font-size: 1.8rem;
-      font-weight: bold;
-      border-radius: 60px;
-      cursor: pointer;
-      transition: 0.4s;
-      text-decoration: none;
-      display: block;
+    .unlock {
+      background:linear-gradient(45deg,gold,#ff0);
+      color:black;
+      border:none;
+      box-shadow:0 10px 30px rgba(255,215,0,0.5);
     }
 
-    .btn-unlock {
-      background: linear-gradient(45deg, gold, #ff0);
-      color: black;
-      border: none;
-      box-shadow: 0 15px 50px rgba(255,215,0,0.6);
+    .unlock:hover { transform:scale(1.05); }
+
+    .home {
+      background:transparent;
+      color:#999;
+      border:2px solid #444;
+      text-decoration:none;
     }
 
-    .btn-unlock:hover {
-      transform: scale(1.08);
-      box-shadow: 0 25px 70px rgba(255,215,0,0.8);
-    }
-
-    .btn-home {
-      background: transparent;
-      color: #aaa;
-      border: 3px solid #444;
-    }
-
-    .btn-home:hover {
-      color: gold;
-      border-color: gold;
-    }
+    .home:hover { color:gold; border-color:gold; }
 
     .error {
-      color: #ff3366;
-      font-weight: bold;
-      font-size: 1.6rem;
-      margin-top: 1.5rem;
-      display: none;
+      color:#ff3366;
+      font-weight:bold;
+      margin-top:1rem;
+      display:none;
     }
   </style>
 </head>
 <body>
 
-  <div class="lock-screen">
-    <div class="card">
-      <i class="fas fa-lock icon"></i>
-      <h1>PREMIUM VERROUILLÉ</h1>
-      <p class="subtitle">Veuillez entrer la clé d'accès</p>
+  <div class="card">
+    <i class="fas fa-lock lock"></i>
+    <h1>PREMIUM VERROUILLÉ</h1>
+    <p class="info">Entrez la clé d'accès</p>
 
-      <input type="password" id="code" placeholder="••••••••••" maxlength="12" autocomplete="off">
+    <input type="password" id="code" placeholder="••••••••••" maxlength="12">
 
-      <p class="error" id="error">Clé incorrecte !</p>
+    <p class="error" id="error">Clé incorrecte !</p>
 
-      <div class="buttons">
-        <button class="btn btn-unlock" id="unlock">DÉVERROUILLER L'ACCÈS</button>
-        <a href="index.html" class="btn btn-home">← Retour à l'accueil</a>
-      </div>
+    <div class="btns">
+      <button class="unlock" id="unlock">DÉVERROUILLER</button>
+      <a href="index.html" class="btn home">Retour accueil</a>
     </div>
   </div>
 
@@ -151,8 +131,9 @@
     const CODE = "MEGANE233@";
 
     function check() {
-      const input = document.getElementById("code").value.trim();
-      if (input === CODE) {
+      const val = document.getElementById("code").value.trim();
+      if (val === CODE) {
+        // Redirection automatique immédiate
         window.location.href = "premium/premium.html";
       } else {
         document.getElementById("error").style.display = "block";
@@ -165,6 +146,5 @@
       if (e.key === "Enter") check();
     });
   </script>
-
 </body>
-        </html>
+</html>
