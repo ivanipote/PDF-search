@@ -14,7 +14,7 @@
 <body>
 
   <h1>Paiement réussi !</h1>
-  <p style="font-size:3rem;margin:3rem 0">Voici ton code Premium :</p>
+  <p style="font-size:3rem;margin:3rem 0">Ton code Premium :</p>
 
   <div class="code" id="codeDisplay">CHARGEMENT...</div>
 
@@ -25,7 +25,6 @@
   </a>
 
   <script>
-    // Génère et sauvegarde le code unique
     function genererEtSauvegarder() {
       const prefix = "MEGANE";
       const random = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -44,7 +43,6 @@
       alert("Code copié !");
     }
 
-    // Affiche le code au chargement
     window.onload = () => {
       const code = genererEtSauvegarder();
       document.getElementById("codeDisplay").textContent = code;
