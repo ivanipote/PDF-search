@@ -19,9 +19,9 @@ input:focus{outline:none;border-color:#ffd700;box-shadow:0 0 8px rgba(255,215,0,
 button{width:100%;padding:14px;margin:16px 0 0;background:linear-gradient(#ffd700,#b8975c);color:#000;font-weight:bold;font-size:18px;border:none;border-radius:10px;cursor:pointer;box-shadow:0 5px 15px rgba(255,215,0,0.4);transition:.3s}
 button:hover{transform:translateY(-2px)}
 .code{margin-top:20px;padding-top:18px;border-top:1px dashed #b8975c}
-.code input{text-align:center;letter-spacing:4px;font-weight:bold;font-size:18px}
-.ok{color:#90ee90;font-weight:bold}
-.no{color:#ff6b6b;font-weight:bold}
+.code input{text-align:center;letter-spacing:5px;font-weight:bold;font-size:19px;padding:14px}
+.ok{color:#90ee90;font-weight:bold;font-size:18px}
+.no{color:#ff6b6b;font-weight:bold;font-size:18px}
 </style>
 </head>
 <body>
@@ -35,14 +35,14 @@ button:hover{transform:translateY(-2px)}
   </div>
 
   <input type="text" id="prenom" placeholder="Prénom">
-  <input type="text" id="nom" placeholder="Nom">
+  <input type="text" id="nom" placeholder="Nom (obligatoire pour le code)">
   <input type="tel" id="whatsapp" placeholder="WhatsApp (ex: 0503588336)">
-  <input type="tel" id="paiement" placeholder="Numéro Wave utilisé">
+  <input type="tel" id="wave" placeholder="Numéro Wave utilisé (très important)">
 
   <button onclick="envoyerDemande()">J’ai envoyé 200F → Recevoir mon code</button>
 
   <div class="code">
-    <input type="text" id="code" placeholder="MG-XXXX-XXXX" maxlength="11">
+    <input type="text" id="code" placeholder="MG-XXXX-XXXXXX" maxlength="13">
     <button onclick="verifierCode()" style="background:#ffd700;color:#000;margin-top:8px;padding:12px;">
       Ouvrir le Premium
     </button>
@@ -53,32 +53,32 @@ button:hover{transform:translateY(-2px)}
 <script>
 const tonLien = "https://wa.me/2250503588336";
 
-function genererCodeVrai(prenom, whatsapp) {
-  const deuxLettres = prenom.trim().substring(0,2).toUpperCase();
-  const quatreDerniers = whatsapp.slice(-4);
-  const jour = String(new Date().getDate()).padStart(2, '0');
-  const mois = String(new Date().getMonth()+1).padStart(2, '0').slice(-2);
-  return `MG-\( {deuxLettres} \){quatreDerniers.slice(-2)}-\( {quatreDerniers.slice(0,2)} \){jour}${mois.slice(-1)}`;
+// Code basé sur NOM + NUMÉRO WAVE + DATE
+function genererCode(nom, waveNum) {
+  const deuxLettres = nom.trim().substring(0,2).toUpperCase();
+  const quatre = waveNum.slice(-4);
+  const jour = String(new Date().getDate()).padStart(2,"0");
+  const mois = String(new Date().getMonth()+1).padStart(2,"0");
+  return `MG-\( {deuxLettres} \){quatre.slice(-2)}-\( {quatre.slice(0,2)} \){jour}${mois}`;
 }
 
 function envoyerDemande() {
   const prenom = document.getElementById('prenom').value.trim();
   const nom = document.getElementById('nom').value.trim();
-  const whatsappRaw = document.getElementById('whatsapp').value.trim().replace(/[^0-9]/g, '');
-  const paiement = document.getElementById('paiement').value.trim();
+  const whatsappRaw = document.getElementById('whatsapp').value.trim().replace(/[^0-9]/g,'');
+  const waveRaw = document.getElementById('wave').value.trim().replace(/[^0-9]/g,'');
 
-  if (!prenom || !nom || !whatsappRaw || !paiement || prenom.length < 2 || whatsappRaw.length < 10) {
-    alert("Vérifie tous les champs");
+  if (!prenom || !nom || !whatsappRaw || !waveRaw || nom.length < 2 || waveRaw.length < 10) {
+    alert("Tous les champs sont obligatoires !");
     return;
   }
 
   let whatsapp = whatsappRaw;
   if (whatsapp.startsWith("0")) whatsapp = "225" + whatsapp.substring(1);
-
   const lienUser = "https://wa.me/" + whatsapp;
-  const codeVrai = genererCodeVrai(prenom, whatsappRaw);
+
+  const codeVrai = genererCode(nom, waveRaw);
   localStorage.setItem('code_attendu', codeVrai);
-  localStorage.setItem('fingerprint', btoa(prenom + whatsapp)); // anti-partage
 
   const message = 
 `Paiement 200 FCFA effectué
@@ -86,7 +86,7 @@ function envoyerDemande() {
 Prénom : ${prenom}
 Nom : ${nom}
 WhatsApp : ${lienUser}
-Numéro Wave : ${paiement}
+Numéro Wave utilisé : ${waveRaw}
 
 Donne-moi mon code Premium svp`;
 
@@ -97,10 +97,9 @@ Donne-moi mon code Premium svp`;
 function verifierCode() {
   const saisi = document.getElementById('code').value.trim().toUpperCase();
   const attendu = localStorage.getItem('code_attendu');
-  const fp = localStorage.getItem('fingerprint');
   const res = document.getElementById('resultat');
 
-  if (saisi === attendu && attendu && fp) {
+  if (saisi === attendu && attendu) {
     localStorage.setItem('acces_premium', 'oui');
     res.innerHTML = "<div class='ok'>Accès autorisé ! Bienvenue VIP</div>";
     setTimeout(() => location.href = "premium.html", 1500);
