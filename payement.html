@@ -3,32 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paiement & Accès Premium</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Accès Premium • Megane Learn</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background:#000814;
+      color:#fff;
+      font-family:'Segoe UI',sans-serif;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+    }
+    .card {
+      background:linear-gradient(135deg,#001d3d,#000814);
+      border:5px solid gold;
+      border-radius:35px;
+      padding:4rem 3rem;
+      max-width:520px;
+      width:100%;
+      text-align:center;
+      box-shadow:0 30px 80px rgba(255,215,0,0.4);
+    }
+    h1 {
+      font-size:3.8rem;
+      background:linear-gradient(90deg,#00f5ff,#40e0d0);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:2rem;
+    }
+    .subtitle {
+      font-size:2rem;
+      color:#00f5ff;
+      margin:3rem 0;
+    }
+    .btn {
+      display:block;
+      width:100%;
+      padding:2rem;
+      margin:2rem 0;
+      font-size:2rem;
+      font-weight:bold;
+      border-radius:60px;
+      cursor:pointer;
+      transition:0.4s;
+      text-decoration:none;
+    }
+    .btn-wave {
+      background:linear-gradient(45deg,#00f5ff,#40c9ff);
+      color:black;
+      border:none;
+      box-shadow:0 15px 40px rgba(0,245,255,0.4);
+    }
+    .btn-code {
+      background:transparent;
+      color:#88f4ff;
+      border:4px solid #00f5ff;
+    }
+    .btn:hover { transform:scale(1.05); }
+    .code-input {
+      width:100%;
+      padding:1.8rem;
+      font-size:2rem;
+      background:#001233;
+      color:white;
+      border:5px solid gold;
+      border-radius:60px;
+      text-align:center;
+      outline:none;
+      margin:3rem 0;
+      letter-spacing:8px;
+    }
+    .error {
+      color:#ff3366;
+      font-size:1.6rem;
+      margin-top:1.5rem;
+      display:none;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
+  <div class="card">
     <h1>ACCÈS PREMIUM</h1>
 
-    <!-- Option 1 : Payer -->
-    <div class="option">
-      <p style="font-size:2rem;margin:3rem 0;">200 FCFA → Accès illimité 10 jours</p>
-      <a href="https://pay.wave.com/m/M_ci_tEommx3CEV8p/c/ci/?amount=20000" 
-         class="btn-gold" style="display:inline-block;padding:2rem 4rem;font-size:2rem;">
-        Payer avec Wave
-      </a>
-    </div>
+    <p class="subtitle">200 FCFA → 10 jours illimités</p>
 
-    <div style="margin:4rem 0;color:#aaa;font-size:1.8rem;">OU</div>
+    <a href="https://pay.wave.com/m/M_ci_tEommx3CEV8p/c/ci/?amount=20000&success_url=https://ivanipote.github.io/PDF-search/success.html" 
+       class="btn btn-wave">
+      Payer avec Wave
+    </a>
 
-    <!-- Option 2 : J’ai un code -->
-    <div class="option">
-      <p style="font-size:1.8rem;">Tu as déjà un code d’accès ?</p>
-      <input type="text" id="codeInput" placeholder="Entre ton code ici" maxlength="12" class="code-input">
-      <button onclick="verifierCode()" class="btn-gold">Accéder au Premium</button>
-      <p id="error" style="color:#ff3366;margin-top:1rem;display:none;">Code invalide ou expiré</p>
-    </div>
+    <p style="margin:4rem 0;font-size:1.8rem;color:#88f4ff;">OU</p>
+
+    <p style="font-size:1.8rem;color:#00f5ff;">J’ai déjà un code</p>
+    <input type="text" id="codeInput" class="code-input" placeholder="••••••••" maxlength="12">
+    <p id="error" class="error">Code invalide</p>
+
+    <button onclick="verifierCode()" class="btn btn-code">
+      Déverrouiller l’accès
+    </button>
   </div>
 
   <script src="script.js"></script>
