@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement & Accès Premium</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>ACCÈS PREMIUM</h1>
+
+    <!-- Option 1 : Payer -->
+    <div class="option">
+      <p style="font-size:2rem;margin:3rem 0;">200 FCFA → Accès illimité 10 jours</p>
+      <a href="https://pay.wave.com/m/M_ci_tEommx3CEV8p/c/ci/?amount=20000" 
+         class="btn-gold" style="display:inline-block;padding:2rem 4rem;font-size:2rem;">
+        Payer avec Wave
+      </a>
+    </div>
+
+    <div style="margin:4rem 0;color:#aaa;font-size:1.8rem;">OU</div>
+
+    <!-- Option 2 : J’ai un code -->
+    <div class="option">
+      <p style="font-size:1.8rem;">Tu as déjà un code d’accès ?</p>
+      <input type="text" id="codeInput" placeholder="Entre ton code ici" maxlength="12" class="code-input">
+      <button onclick="verifierCode()" class="btn-gold">Accéder au Premium</button>
+      <p id="error" style="color:#ff3366;margin-top:1rem;display:none;">Code invalide ou expiré</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
