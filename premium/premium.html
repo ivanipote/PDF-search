@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès Premium • Megane Learn</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs" type="module"></script>
+</head>
+<body>
+
+  <div class="container">
+    <div class="premium-badge">ACCÈS PREMIUM</div>
+    <h1>Espace Réservé</h1>
+
+    <input type="password" id="password" placeholder="Mot de passe professeur" class="search-bar" style="margin-bottom:2rem;">
+
+    <div id="locked" class="premium-content">
+      <p style="font-size:1.8rem;color:#0066FF;">
+        Entrez le mot de passe pour accéder aux corrigés, vidéos et archives exclusives
+      </p>
+    </div>
+
+    <div id="content" style="display:none;">
+      <input type="text" id="search" class="search-bar" placeholder="Recherche dans les documents premium..." autofocus>
+
+      <p class="status" id="status">Chargement des documents premium…</p>
+      <p class="result-count" id="resultCount"></p>
+
+      <div id="results" class="results-grid"></div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html">Accueil</a>
+    <a href="rech.html">Cours PDF</a>
+    <a href="bt.html">BT & Normes</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <script>
+    const PASSWORD = "megane2025"; // ← Change ce mot de passe comme tu veux
+    const repo = "ivanipote/megane-learn";
+    const folder = "premium"; // ← ton dossier à la racine
+    let pdfs = [];
+
+    // Vérification mot de passe
+    document.getElementById("password").addEventListener("keypress", e => {
+      if (e.key === "Enter") {
+        if (e.target.value === PASSWORD) {
+          document.getElementById("locked").style.display = "none";
+          document.getElementById("content").style.display = "block";
+          document.getElementById("search").focus();
+          indexPDFs();
+        } else {
+          alert("Mot de passe incorrect");
+        }
+      }
+    });
+
+    async function indexPDFs() {
+      const status = document.getElementById("status");
+      status.textContent = "Indexation des documents premium…";
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/\( {repo}/contents/ \){folder}`);
+        const files = await res.json();
+        const pdfFiles = files.filter(f => f.name.toLowerCase().endsWith('.pdf'));
+
+        if (pdfFiles.length === 0) {
+          status.textContent = "Aucun document premium pour le moment";
+          return;
+          return;
+        }
+
+        status.textContent = `Chargement de ${pdfFiles.length} documents…`;
+
+        for (const file of pdfFiles) {
+          const url = `https://raw.githubusercontent.com/\( {repo}/main/ \){folder}/${encodeURIComponent(file.name)}`;
+          let fullText = file.name + " ";
+
+          try {
+            const pdf = await pdfjsLib.getDocument(url).promise;
+            for (let i = 1; i <= pdf.numPages; i++) {
+              const page = await pdf.getPage(i);
+              const content = await page.getTextContent();
+              fullText += content.items.map(item => item.str).join(" ") + " ";
+            }
+          } catch (e) {}
+
+          pdfs.push({
+            name: file.name,
+            url: url,
+            text: fullText.toLowerCase(),
+            size: (file.size / 1024 / 1024).toFixed(2)
+          });
+        }
+
+        status.textContent = `Prêt ! ${pdfs.length} documents premium disponibles`;
+      } catch (e) {
+        status.textContent = "Erreur de chargement";
+      }
+    }
+
+    document.getElementById("search").addEventListener("input", () => {
+      const query = document.getElementById("search").value.toLowerCase().trim();
+      const results = document.getElementById("results");
+      results.innerHTML = "";
+
+      if (!query) {
+        document.getElementById("resultCount").textContent = "";
+        return;
+      }
+
+      const found = pdfs.filter(p => p.text.includes(query));
+
+      document.getElementById("resultCount").textContent = found.length ? `\( {found.length} résultat \){found.length > 1 ? 's' : ''}` : "Aucun résultat";
+
+      found.forEach(p => {
+        const index = p.text.indexOf(query);
+        const snippet = index > -1
+          ? "..." + p.text.substring(Math.max(0, index - 100), index + query.length + 100) + "..."
+          : "Document trouvé";
+
+        const highlighted = snippet.replace(new RegExp(`(${query})`, 'gi'), '<mark style="background:#0066FF;color:white;padding:0.3rem 0.6rem;border-radius:6px;">$1</mark>');
+
+        results.innerHTML += `
+          <div class="result-card">
+            <div class="file-name"> ${p.name}</div>
+            <div class="snippet">${highlighted}</div>
+            <div style="color:#888;margin:1.5rem 0;">Taille : ${p.size} Mo</div>
+            <a href="${p.url}" download class="btn-download">
+              Télécharger le PDF
+            </a>
+          </div>`;
+      });
+    });
+  </script>
+</body>
+        </html>
