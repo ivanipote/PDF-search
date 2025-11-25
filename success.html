@@ -14,37 +14,38 @@
 <body>
 
   <h1>Paiement réussi !</h1>
-  <p style="font-size:3rem;margin:3rem 0">Ton code Premium :</p>
+  <p style="font-size:3rem;margin:3rem 0">Voici ton code Premium :</p>
 
-  <div class="code" id="codeDisplay">CHARGEMENT...</div>
+  <div class="code" id="codeDisplay">Génération...</div>
 
-  <button onclick="copierCode()">Copier le code</button>
+  <button onclick="copier()">Copier le code</button>
   <br>
   <a href="payement.html" style="color:gold;font-size:2.5rem;display:block;margin-top:4rem">
     ← Coller le code et accéder
   </a>
 
   <script>
-    function genererEtSauvegarder() {
+    function genererCode() {
       const prefix = "MEGANE";
-      const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-      const code = `\( {prefix}- \){random}`;
-
-      const codes = JSON.parse(localStorage.getItem("meganeCodes") || "[]");
-      codes.push({ code, expire: Date.now() + (10 * 24 * 60 * 60 * 1000) }); // 10 jours
-      localStorage.setItem("meganeCodes", JSON.stringify(codes));
-
-      return code;
+      const random = Math.random().toString(36).substring(2,8).toUpperCase();
+      return `\( {prefix}- \){random}`;
     }
 
-    function copierCode() {
+    function sauvegarderCode(code) {
+      const codes = JSON.parse(localStorage.getItem("meganeCodes") || "[]");
+      codes.push({ code, expire: Date.now() + (10*24*60*60*1000) });
+      localStorage.setItem("meganeCodes", JSON.stringify(codes));
+    }
+
+    function copier() {
       const code = document.getElementById("codeDisplay").textContent;
       navigator.clipboard.writeText(code);
       alert("Code copié !");
     }
 
     window.onload = () => {
-      const code = genererEtSauvegarder();
+      const code = genererCode();
+      sauvegarderCode(code);
       document.getElementById("codeDisplay").textContent = code;
     };
   </script>
