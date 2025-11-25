@@ -3,48 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accès Premium • 5 000 FCFA</title>
+  <title>Premium VIP • 200 FCFA</title>
   <style>
-    body{font-family:Arial;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:20px;display:flex;min-height:100vh;align-items:center;justify-content:center;}
-    .box{max-width:480px;width:100%;background:#fff;padding:40px;border-radius:18px;box-shadow:0 15px 35px rgba(0,0,0,0.2);text-align:center;}
-    h1{font-size:28px;margin-bottom:10px;color:#333;}
-    input{width:100%;padding:15px;margin:12px 0;border:2px solid #ddd;border-radius:10px;font-size:16px;box-sizing:border-box;}
-    input:focus{border-color:#667eea;outline:none;}
-    button{width:100%;padding:16px;margin-top:20px;background:#25D366;color:#fff;font-weight:bold;font-size:19px;border:none;border-radius:12px;cursor:pointer;}
-    button:hover{background:#1da851;}
-    .price{background:#fff3e0;padding:18px;border-radius:12px;margin:25px 0;font-size:20px;font-weight:bold;color:#ef6c00;}
-    .codebox{margin-top:50px;padding-top:30px;border-top:3px dashed #ccc;}
-    .success{color:green;font-size:18px;margin:15px 0;}
-    .error{color:red;font-size:18px;margin:15px 0;}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:Arial,sans-serif;background:#000;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10px}
+    .card{background:linear-gradient(135deg,#111,#000);border:2px solid #b8975c;border-radius:16px;max-width:380px;width:100%;padding:24px 20px;text-align:center;box-shadow:0 15px 40px rgba(184,151,92,0.3)}
+    .card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#b8975c,#ffd700,#b8975c);border-radius:16px 16px 0 0}
+    h1{font-size:24px;font-weight:800;background:linear-gradient(to right,#ffd700,#b8975c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+    .price{font-size:32px;font-weight:bold;color:#ffd700;margin:12px 0 16px;text-shadow:0 0 15px #ffd700}
+    .wave{background:rgba(184,151,92,0.2);border:1px solid #b8975c;border-radius:10px;padding:12px;font-size:15px;margin:16px 0}
+    .wave strong{color:#ffd700;font-size:17px}
+    input{width:100%;padding:12px;margin:8px 0;background:rgba(255,255,255,0.08);border:1px solid #b8975c;border-radius:8px;color:#fff;font-size:15px}
+    input::placeholder{color:#aaa}
+    input:focus{outline:none;border-color:#ffd700;box-shadow:0 0 8px rgba(255,215,0,0.4)}
+    button{width:100%;padding:14px;margin:16px 0 0;background:linear-gradient(#ffd700,#b8975c);color:#000;font-weight:bold;font-size:18px;border:none;border-radius:10px;cursor:pointer;box-shadow:0 5px 15px rgba(255,215,0,0.4);transition:.3s}
+    button:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(255,215,0,0.5)}
+    .code{margin-top:20px;padding-top:18px;border-top:1px dashed #b8975c}
+    .code input{text-align:center;letter-spacing:4px;font-weight:bold;font-size:18px}
+    .ok{color:#90ee90;font-weight:bold}
+    .no{color:#ff6b6b;font-weight:bold}
   </style>
 </head>
 <body>
 
-<div class="box">
-  <h1>Accès Premium</h1>
-  <p>Remplis le formulaire → paiement → code reçu en 30 secondes</p>
+<div class="card">
+  <h1>ACCÈS PREMIUM</h1>
+  <div class="price">200 FCFA</div>
 
-  <input type="text" id="prenom" placeholder="Prénom" required>
-  <input type="text" id="nom" placeholder="Nom de famille" required>
-  <input type="tel" id="whatsapp" placeholder="Ton WhatsApp (ex: 0503588336)" required>
-  <input type="tel" id="paiement" placeholder="Numéro utilisé pour payer (Wave/OM/Moov)" required>
+  <div class="wave">
+    Envoie <strong>200 FCFA par Wave</strong><br>
+    au <strong>+225 05 03 58 83 36</strong>
+  </div>
 
-  <div class="price">Prix : 5 000 FCFA</div>
-  <button onclick="envoyerDemande()">J’ai payé → Recevoir mon code</button>
+  <input type="text" id="prenom" placeholder="Prénom">
+  <input type="text" id="nom" placeholder="Nom">
+  <input type="tel" id="whatsapp" placeholder="WhatsApp (ex: 0503588336)">
+  <input type="tel" id="paiement" placeholder="Numéro Wave utilisé">
 
-  <div class="codebox">
-    <p>Entre ton code reçu par WhatsApp :</p>
-    <input type="text" id="code" placeholder="Ex: MG-827" style="text-transform:uppercase;">
-    <button onclick="verifierCode()" style="background:#6c5ce7;">Accéder au Premium</button>
+  <button onclick="envoyerDemande()">J’ai envoyé 200F → Recevoir mon code</button>
+
+  <div class="code">
+    <input type="text" id="code" placeholder="MG-XXX" maxlength="8">
+    <button onclick="verifierCode()" style="background:#ffd700;color:#000;margin-top:8px;padding:12px;">
+      Ouvrir le Premium
+    </button>
     <div id="resultat"></div>
   </div>
 </div>
 
 <script>
-// Ton lien WhatsApp
 const tonLien = "https://wa.me/2250503588336";
 
-// Génère un code aléatoire unique
 function genererCode() {
   return "MG-" + Math.floor(100 + Math.random() * 900);
 }
@@ -56,37 +65,34 @@ function envoyerDemande() {
   const paiement = document.getElementById('paiement').value.trim();
 
   if (!prenom || !nom || !whatsappRaw || !paiement) {
-    alert("Tous les champs sont obligatoires !");
+    alert("Remplis tous les champs");
     return;
   }
 
-  // Numéro complet : si commence par 0 → on ajoute 225 devant
-  let numeroComplet = whatsappRaw;
-  if (numeroComplet.startsWith("0") && numeroComplet.length === 10) {
-    numeroComplet = "225" + numeroComplet.substring(1);
-  } else if (!numeroComplet.startsWith("225")) {
-    numeroComplet = "225" + numeroComplet;
-  }
-  const lienUser = "https://wa.me/" + numeroComplet;
+  // Numéro complet exact
+  let numero = whatsappRaw;
+  if (numero.startsWith("0") && numero.length === 10) numero = "225" + numero.substring(1);
+  else if (!numero.startsWith("225")) numero = "225" + numero;
+  const lienUser = "https://wa.me/" + numero;
 
-  // Code unique généré pour cet utilisateur
-  const codeUnique = genererCode();
-  localStorage.setItem('code_attendu', codeUnique);
+  // Code généré mais JAMAIS montré à l'utilisateur ici
+  const codeSecret = genererCode();
+  localStorage.setItem('code_attendu', codeSecret);
 
-  const message =
-`Bonjour ! J'ai effectué le paiement
+  const message = 
+`Paiement envoyé ! 200 FCFA
 
 Prénom : ${prenom}
 Nom : ${nom}
 WhatsApp : ${lienUser}
-Numéro paiement : ${paiement}
+Numéro Wave : ${paiement}
 
-Montant : 5 000 FCFA
-
-Envoie-moi ma clé d'accès → je te réponds avec : ${codeUnique}`;
+Je veux mon code Premium`;
 
   window.open(tonLien + "?text=" + encodeURIComponent(message), '_blank');
-  alert("WhatsApp ouvert ! Envoie le message → je te réponds avec ton code " + codeUnique);
+  
+  // Message neutre → impossible de copier le code
+  alert("Message envoyé ! Je te réponds avec ton code en 10 secondes maximum");
 }
 
 function verifierCode() {
@@ -94,20 +100,15 @@ function verifierCode() {
   const attendu = localStorage.getItem('code_attendu');
   const res = document.getElementById('resultat');
 
-  if (!saisi) {
-    res.innerHTML = "<p class='error'>Entre ton code</p>";
-    return;
-  }
-
   if (saisi === attendu && attendu) {
     localStorage.setItem('acces_premium', 'oui');
-    res.innerHTML = "<p class='success'>Accès autorisé ! Redirection...</p>";
+    res.innerHTML = "<div class='ok'>Accès autorisé ! Bienvenue VIP</div>";
     setTimeout(() => location.href = "premium.html", 1500);
   } else {
-    res.innerHTML = "<p class='error'>Code incorrect ou pas encore reçu</p>";
+    res.innerHTML = "<div class='no'>Code incorrect</div>";
   }
 }
 </script>
 
 </body>
-</html>
+    </html>
