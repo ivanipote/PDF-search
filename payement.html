@@ -22,7 +22,6 @@
     <h1>ACCÈS PREMIUM</h1>
     <p style="font-size:2rem;color:#00ff9d;margin:3rem 0">200 FCFA → 10 jours illimités</p>
 
-    <!-- PAIEMENT WAVE -->
     <a href="https://pay.wave.com/m/M_ci_tEommx3CEV8p/c/ci/?amount=20000&success_url=https://ivanipote.github.io/PDF-search/success.html" 
        class="btn btn-wave">
       Payer avec Wave
@@ -30,7 +29,6 @@
 
     <p style="margin:4rem 0;font-size:1.8rem;color:#aaa">OU</p>
 
-    <!-- CLÉ D'ACCÈS -->
     <p style="font-size:1.8rem;color:#00f5ff">J’ai déjà un code</p>
     <input type="text" id="codeInput" class="code-input" placeholder="••••••••" maxlength="12">
     <p id="error" class="error">Code invalide</p>
@@ -47,7 +45,7 @@
       const valide = CODES.find(c => c.code === input && now < c.expire);
 
       if (valide) {
-        window.location.href = "premium/premium.html";
+        window.location.href = "premium.html"; // ← à la racine
       } else {
         document.getElementById("error").style.display = "block";
       }
