@@ -19,7 +19,7 @@ input:focus{outline:none;border-color:#ffd700;box-shadow:0 0 8px rgba(255,215,0,
 button{width:100%;padding:14px;margin:16px 0 0;background:linear-gradient(#ffd700,#b8975c);color:#000;font-weight:bold;font-size:18px;border:none;border-radius:10px;cursor:pointer;box-shadow:0 5px 15px rgba(255,215,0,0.4);transition:.3s}
 button:hover{transform:translateY(-2px)}
 .code{margin-top:20px;padding-top:18px;border-top:1px dashed #b8975c}
-.code input{text-align:center;letter-spacing:5px;font-weight:bold;font-size:19px;padding:14px}
+.code input{text-align:center;letter-spacing:6px;font-weight:bold;font-size:20px;padding:14px;maxlength:15}
 .ok{color:#90ee90;font-weight:bold;font-size:18px}
 .no{color:#ff6b6b;font-weight:bold;font-size:18px}
 </style>
@@ -34,15 +34,14 @@ button:hover{transform:translateY(-2px)}
     Envoie <strong>200 FCFA par Wave</strong><br>au <strong>+225 05 03 58 83 36</strong>
   </div>
 
-  <input type="text" id="prenom" placeholder="Prénom">
-  <input type="text" id="nom" placeholder="Nom (obligatoire pour le code)">
-  <input type="tel" id="whatsapp" placeholder="WhatsApp (ex: 0503588336)">
+  <input type="text" id="nom" placeholder="Ton NOM complet (ex: KOFFI)" style="text-transform:uppercase;">
+  <input type="tel" id="whatsapp" placeholder="Ton WhatsApp (ex: 0503588336)">
   <input type="tel" id="wave" placeholder="Numéro Wave utilisé (très important)">
 
   <button onclick="envoyerDemande()">J’ai envoyé 200F → Recevoir mon code</button>
 
   <div class="code">
-    <input type="text" id="code" placeholder="MG-XXXX-XXXXXX" maxlength="13">
+    <input type="text" id="code" placeholder="MG-XXXX-XXXXXX" maxlength="15" style="letter-spacing:6px;font-size:20px;">
     <button onclick="verifierCode()" style="background:#ffd700;color:#000;margin-top:8px;padding:12px;">
       Ouvrir le Premium
     </button>
@@ -53,23 +52,21 @@ button:hover{transform:translateY(-2px)}
 <script>
 const tonLien = "https://wa.me/2250503588336";
 
-// Code basé sur NOM + NUMÉRO WAVE + DATE
 function genererCode(nom, waveNum) {
-  const deuxLettres = nom.trim().substring(0,2).toUpperCase();
+  const deux = nom.trim().substring(0,2).toUpperCase();
   const quatre = waveNum.slice(-4);
   const jour = String(new Date().getDate()).padStart(2,"0");
   const mois = String(new Date().getMonth()+1).padStart(2,"0");
-  return `MG-\( {deuxLettres} \){quatre.slice(-2)}-\( {quatre.slice(0,2)} \){jour}${mois}`;
+  return `MG-\( {deux} \){quatre.slice(-2)}-\( {quatre.slice(0,2)} \){jour}${mois}`;
 }
 
 function envoyerDemande() {
-  const prenom = document.getElementById('prenom').value.trim();
   const nom = document.getElementById('nom').value.trim();
   const whatsappRaw = document.getElementById('whatsapp').value.trim().replace(/[^0-9]/g,'');
   const waveRaw = document.getElementById('wave').value.trim().replace(/[^0-9]/g,'');
 
-  if (!prenom || !nom || !whatsappRaw || !waveRaw || nom.length < 2 || waveRaw.length < 10) {
-    alert("Tous les champs sont obligatoires !");
+  if (!nom || !whatsappRaw || !waveRaw || nom.length < 2 || waveRaw.length < 10) {
+    alert("Remplis bien tous les champs !");
     return;
   }
 
@@ -83,10 +80,9 @@ function envoyerDemande() {
   const message = 
 `Paiement 200 FCFA effectué
 
-Prénom : ${prenom}
-Nom : ${nom}
+Nom : ${nom.toUpperCase()}
 WhatsApp : ${lienUser}
-Numéro Wave utilisé : ${waveRaw}
+Numéro Wave : ${waveRaw}
 
 Donne-moi mon code Premium svp`;
 
