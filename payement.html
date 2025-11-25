@@ -14,21 +14,26 @@
     .btn-code{background:transparent;color:#88f4ff;border:4px solid #00f5ff}
     .code-input{width:100%;padding:1.8rem;font-size:2rem;background:#001f3f;color:white;border:5px solid gold;border-radius:60px;text-align:center;margin:2rem 0;letter-spacing:8px}
     .error{color:#ff3366;font-size:1.6rem;margin-top:1rem;display:none}
+    .important{background:#ff336620;padding:1.5rem;border-radius:15px;margin:2rem 0;font-size:1.4rem}
   </style>
 </head>
 <body>
 
   <div class="card">
     <h1>ACCÈS PREMIUM</h1>
-    <p style="font-size:2.5rem;color:#00ff9d;margin:3rem 0">
-      Seulement 50 FCFA → Accès illimité 10 jours
-    </p>
+    <p style="font-size:2.5rem;color:#00ff9d;margin:3rem 0">50 FCFA → Accès illimité 10 jours</p>
 
-    <!-- PAIEMENT WAVE 50 FCFA -->
-    <a href="https://pay.wave.com/m/M_ci_tEommx3CEV8p/c/ci/?amount=0&success_url=https://ivanipote.github.io/PDF-search/success.html" 
+    <!-- PAIEMENT WAVE -->
+    <a href="https://pay.wave.com/m/M_ci_tEommx3CEV8p/c/ci/?amount=5000&success_url=https://ivanipote.github.io/PDF-search/success.html" 
        class="btn btn-wave">
-      Payer 0 FCFA avec Wave
+      Payer 50 FCFA avec Wave
     </a>
+
+    <div class="important">
+      <strong>⚠️ Important :</strong><br>
+      Après paiement dans l’app Wave, <strong>reviens ici</strong> ou clique sur ce lien :<br>
+      <a href="success.html" style="color:gold;font-weight:bold">→ Recevoir mon code Premium</a>
+    </div>
 
     <p style="margin:4rem 0;font-size:1.8rem;color:#aaa">OU</p>
 
@@ -42,7 +47,7 @@
     const CODES = JSON.parse(localStorage.getItem("meganeCodes") || "[]");
 
     function verifierCode() {
-      const input = document.getElementById("codeInput").value.trim().toUpperCase();
+      const input = document.getElementById("codeInput").value.trim().value.trim().toUpperCase();
       const now = Date.now();
       const valide = CODES.find(c => c.code === input && now < c.expire);
 
@@ -55,4 +60,4 @@
   </script>
 
 </body>
-      </html>
+</html>
