@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès Premium • Megane Learn</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body {
+      height: 100%;
+      background: linear-gradient(135deg, #000, #1a0000);
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
 
+    .lock-screen {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background: rgba(15,15,15,0.95);
+      border: 6px solid gold;
+      border-radius: 35px;
+      padding: 4rem 3rem;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 30px 100px rgba(255,215,0,0.5);
+    }
+
+    .icon {
+      font-size: 7rem;
+      color: gold;
+      margin-bottom: 3s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    h1 {
+      font-size: 3.8rem;
+      background: linear-gradient(90deg, gold, #ff0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 2rem 0 1rem;
+    }
+
+    .subtitle {
+      font-size: 2rem;
+      color: #ff3366;
+      font-weight: bold;
+      margin: 2rem 0;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 1.8rem 2.5rem;
+      font-size: 2rem;
+      background: #111;
+      color: white;
+      border: 5px solid gold;
+      border-radius: 60px;
+      text-align: center;
+      outline: none;
+      letter-spacing: 10px;
+      margin: 2.5rem 0;
+      box-shadow: 0 0 40px rgba(255,215,0,0.4);
+    }
+
+    input[type="password"]:focus {
+      box-shadow: 0 0 80px rgba(255,215,0,0.9);
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .btn {
+      padding: 1.8rem;
+      font-size: 1.8rem;
+      font-weight: bold;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: 0.4s;
+      text-decoration: none;
+      display: block;
+    }
+
+    .btn-unlock {
+      background: linear-gradient(45deg, gold, #ff0);
+      color: black;
+      border: none;
+      box-shadow: 0 15px 50px rgba(255,215,0,0.6);
+    }
+
+    .btn-unlock:hover {
+      transform: scale(1.08);
+      box-shadow: 0 25px 70px rgba(255,215,0,0.8);
+    }
+
+    .btn-home {
+      background: transparent;
+      color: #aaa;
+      border: 3px solid #444;
+    }
+
+    .btn-home:hover {
+      color: gold;
+      border-color: gold;
+    }
+
+    .error {
+      color: #ff3366;
+      font-weight: bold;
+      font-size: 1.6rem;
+      margin-top: 1.5rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lock-screen">
+    <div class="card">
+      <i class="fas fa-lock icon"></i>
+      <h1>PREMIUM VERROUILLÉ</h1>
+      <p class="subtitle">Veuillez entrer la clé d'accès</p>
+
+      <input type="password" id="code" placeholder="••••••••••" maxlength="12" autocomplete="off">
+
+      <p class="error" id="error">Clé incorrecte !</p>
+
+      <div class="buttons">
+        <button class="btn btn-unlock" id="unlock">DÉVERROUILLER L'ACCÈS</button>
+        <a href="index.html" class="btn btn-home">← Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CODE = "MEGANE233@";
+
+    function check() {
+      const input = document.getElementById("code").value.trim();
+      if (input === CODE) {
+        window.location.href = "premium/premium.html";
+      } else {
+        document.getElementById("error").style.display = "block";
+        document.getElementById("code").value = "";
+      }
+    }
+
+    document.getElementById("unlock").onclick = check;
+    document.getElementById("code").addEventListener("keypress", e => {
+      if (e.key === "Enter") check();
+    });
+  </script>
+
+</body>
+        </html>
