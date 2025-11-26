@@ -1,79 +1,163 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accès Premium • Megane Learn</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:#000;color:#fff;font-family:Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
-    .card{background:#111;border:5px solid gold;border-radius:35px;padding:4rem 3rem;max-width:520px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(255,215,0,0.4)}
-    h1{font-size:3.8rem;background:linear-gradient(90deg,#00f5ff,#40e0d0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2rem}
-    input{width:100%;padding:1.8rem;font-size:2rem;background:#001f3f;color:white;border:5px solid gold;border-radius:60px;text-align:center;margin:2rem 0}
-    .btn{display:block;width:100%;padding:2rem;margin:2rem 0;font-size:2rem;font-weight:bold;border-radius:60px;cursor:pointer}
-    .btn-wave{background:#00f5ff;color:black;border:none}
-    .btn-code{background:transparent;color:#88f4ff;border:4px solid #00f5ff}
-    .error{color:#ff3366;font-size:1.6rem;margin-top:1rem;display:none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès Premium • 5 000 FCFA</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            background: #f8fbff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 45px 35px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 15px 40px rgba(0,100,255,0.12);
+            border: 3px solid #0066ff;
+            text-align: center;
+        }
+        h1 { color: #0066ff; font-size: 36px; margin-bottom: 8px; }
+        .prix { font-size: 32px; color: #0066ff; font-weight: bold; margin: 15px 0 35px; }
+        input {
+            width: 100%;
+            padding: 16px;
+            margin: 12px 0;
+            border: 2px solid #0066ff44;
+            border-radius: 12px;
+            font-size: 17px;
+            background: #f8fbff;
+        }
+        input:focus { outline: none; border-color: #0066ff; background: white; }
+
+        .btn-group { display: flex; gap: 18px; margin: 40px 0; }
+        .btn {
+            flex: 1;
+            padding: 20px;
+            border-radius: 14px;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(0,102,255,0.25);
+        }
+        .btn img { width: 36px; height: 36px; }
+        .btn-wave, .btn-whatsapp { background: #0066ff; }
+        .btn:hover { transform: translateY(-6px); box-shadow: 0 15px 30px rgba(0,102,255,0.35); }
+
+        .code-section { margin: 50px 0 30px; }
+        .code-section h3 { color: #0066ff; margin-bottom: 15px; font-size: 20px; }
+        #codeInput { text-align: center; font-size: 26px; letter-spacing: 6px; font-weight: bold; text-transform: uppercase; padding: 16px; }
+        .btn-acceder {
+            margin-top: 20px;
+            padding: 18px 60px;
+            background: #0066ff;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0,102,255,0.3);
+        }
+        .btn-acceder:hover { background: #0050cc; transform: translateY(-3px); }
+
+        .instructions {
+            background: #f0f7ff;
+            padding: 22px;
+            border-radius: 14px;
+            margin-top: 30px;
+            border-left: 5px solid #0066ff;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+    </style>
+    <script>
+        function envoyerWhatsApp() {
+            // On récupère les vraies valeurs saisies
+            const nom     = document.getElementById("nom").value.trim();
+            const prenom  = document.getElementById("prenom").value.trim();
+            const contact = document.getElementById("contact").value.trim();
+
+            if (!nom || !prenom || !contact) {
+                alert("⚠️ Veuillez remplir NOM, PRÉNOM et CONTACT avant d'envoyer");
+                return;
+            }
+
+            // Message EXACTEMENT comme tu le veux
+            const message = `Bonjour !\n\nJe viens de payer 5 000 FCFA via Wave pour l'accès Premium.\n\nNOM : \( {nom}\nPRÉNOM : \){prenom}\nCONTACT : ${contact}\n\nMerci de m'envoyer mon code d'accès rapidement !`;
+
+            const url = "https://wa.me/22500503588336?text=" + encodeURIComponent(message);
+            window.open(url, "_blank");
+        }
+
+        async function verifierCode() {
+            const code = document.getElementById("codeInput").value.trim().toUpperCase();
+            if (!code) return alert("Entrez votre code d'accès");
+
+            try {
+                const r = await fetch("code/code.html?" + Date.now());
+                const texte = await r.text();
+                if (texte.includes(code)) {
+                    window.location.href = "premium.html";
+                } else {
+                    alert("Code invalide ou expiré");
+                }
+            } catch {
+                alert("Erreur de connexion, réessayez dans quelques secondes");
+            }
+        }
+    </script>
 </head>
 <body>
 
-  <div class="card">
-    <h1>ACCÈS PREMIUM</h1>
-    <p style="font-size:2.2rem;color:#00ff9d;margin:3rem 0">50 FCFA → Accès illimité 10 jours</p>
+    <div class="card">
+        <h1>Accès Premium</h1>
+        <div class="prix">5 000 FCFA</div>
 
-    <input type="tel" id="phone" placeholder="+221 77 XXX XX XX" required>
-    <button onclick="lancerPaiement()" class="btn btn-wave">
-      Payer 50 FCFA avec Wave
-    </button>
+        <input type="text" id="nom" placeholder="Votre NOM">
+        <input type="text" id="prenom" placeholder="Votre PRÉNOM">
+        <input type="text" id="contact" placeholder="Votre numéro (ex: 07 XX XX XX XX)">
 
-    <p style="margin:4rem 0;font-size:1.8rem;color:#aaa">OU</p>
+        <div class="btn-group">
+            <a href="https://pay.wave.com/m/M_ci_tEommx3CEV8p/c/ci/?amount=5" target="_blank" class="btn btn-wave">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Wave_Mobile_Money_Logo.png" alt="Wave">
+                Payer avec Wave
+            </a>
+            <a href="javascript:envoyerWhatsApp()" class="btn btn-whatsapp">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                Envoyer sur WhatsApp
+            </a>
+        </div>
 
-    <input type="text" id="codeInput" placeholder="Entre ton code ici" maxlength="12">
-    <p id="error" class="error">Code invalide</p>
-    <button onclick="verifierCode()" class="btn btn-code">Déverrouiller</button>
-  </div>
+        <div class="code-section">
+            <h3>Entrez votre code d'accès</h3>
+            <input type="text" id="codeInput" placeholder="EX: MG20200" maxlength="7">
+            <button onclick="verifierCode()" class="btn-acceder">Accéder au Premium</button>
+        </div>
 
-  <script>
-    // === TOUT LE CODE EST ICI, DANS LE MÊME FICHIER ===
-    let CODES = JSON.parse(localStorage.getItem("meganeCodes") || "[]");
-
-    async function lancerPaiement() {
-      const phone = document.getElementById("phone").value.trim();
-      if (!phone || phone.length < 10) return alert("Numéro invalide");
-
-      // Génère le code
-      const code = "MEGANE-" + Math.random().toString(36).substring(2,8).toUpperCase();
-
-      // Sauvegarde localement (10 jours)
-      CODES.push({ code, expire: Date.now() + (10*24*60*60*1000) });
-      localStorage.setItem("meganeCodes", JSON.stringify(CODES));
-
-      // Envoie le code par SMS via ton Vercel
-      await fetch("https://pdf-search.vercel.app/api/send-sms", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, code })
-      }).catch(() => {});
-
-      // Message + ouverture Wave
-      alert(`Paiement lancé !\nTon code : ${code}\nTu le reçois aussi par SMS`);
-
-      window.open("https://pay.wave.com/m/M_ci_tEommx3CEV8p/c/ci/?amount=5", "_blank");
-    }
-
-    function verifierCode() {
-      const input = document.getElementById("codeInput").value.trim().toUpperCase();
-      const now = Date.now();
-      const valide = CODES.find(c => c.code === input && now < c.expire);
-
-      if (valide) {
-        window.location.href = "premium.html";
-      } else {
-        document.getElementById("error").style.display = "block";
-      }
-    }
-  </script>
+        <div class="instructions">
+            <strong>Étapes simples :</strong><br><br>
+            1. Remplissez vos informations<br>
+            2. Cliquez sur « Envoyer sur WhatsApp » → je reçois tout<br>
+            3. Payez via Wave<br>
+            4. Je vous envoie votre code → entrez-le ici → accès immédiat !
+        </div>
+    </div>
 
 </body>
 </html>
