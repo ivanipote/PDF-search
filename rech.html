@@ -47,7 +47,7 @@
   <!-- ... le reste de votre code existant ... -->
 
   <script type="module">
-    const RECH_FOLDER = "rechfiles";
+    const RECH_FOLDER = "searchfiles";
     let allPDFs = [];
 
     async function loadPDFList() {
@@ -55,7 +55,7 @@
         const resp = await fetch(`https://api.github.com/repos/ivanipote/PDF-search/contents/${RECH_FOLDER}`);
         const files = await resp.json();
         allPDFs = files.filter(f => f.name.toLowerCase().endsWith('.pdf'));
-        document.getElementById("status").textContent = `${allPDFs.length} PDF chargés – tape plusieurs mots pour une recherche intelligente !`;
+        document.getElementById("status").textContent = `${allPDFs.length} connexion réussi– tape plusieurs mots pour une recherche intelligente !`;
         showAllPDFs();
       } catch (e) {
         document.getElementById("status").textContent = "Erreur : dossier rechfiles introuvable";
